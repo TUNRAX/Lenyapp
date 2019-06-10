@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+
+    <TableRow
+        android:id="@+id/lel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFBC59">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
+            android:paddingBottom="15dp"
+            android:text="Leñador"
+            android:textColor="@color/primary_text"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
+            android:paddingBottom="15dp"
+            android:text="Direccion"
+            android:textColor="@color/primary_text"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/roboto"
+            android:paddingBottom="15dp"
+            android:text="Calificar"
+            android:textColor="@color/primary_text"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+    </TableRow>
+
+    <ScrollView android:layout_height="match_parent">
+
+        <TableLayout
+            android:id="@+id/tblTablaUVisitados"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="20dp">
+
+        </TableLayout>
+    </ScrollView>
+</TableLayout>

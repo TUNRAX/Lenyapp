@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/menuArriba"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/btnEdit"
+            android:icon="@drawable/checkboxpenoutline"
+            android:title="Editar Datos" />
+        <item
+            android:id="@+id/btnView"
+            android:icon="@drawable/openbook"
+            android:title="Leñadores visitados" />
+        <item android:title="Proveedores favoritos"
+            android:id="@+id/btnFavoritos"
+            android:icon="@drawable/starwhite"/>
+        <item
+            android:id="@+id/btnReporte"
+            android:icon="@drawable/textdocument"
+            android:title="Contacto con soporte" />
+        <item
+            android:id="@+id/btnReportesH"
+            android:icon="@drawable/mail"
+            android:title="Reportes realizados" />
+        <item
+            android:id="@+id/btnInfo"
+            android:icon="@drawable/information"
+            android:title="Acerca De" />
+
+    </group>
+
+    <group
+        android:id="@+id/menuAbajo"
+        android:checkableBehavior="none">
+            <item
+                android:id="@+id/btnLogoff"
+                android:icon="@drawable/exittoappbutton"
+                android:title="Cerrar Sesion" />
+    </group>
+
+</menu>

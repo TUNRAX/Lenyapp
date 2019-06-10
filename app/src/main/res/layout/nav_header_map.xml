@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+    android:background="@drawable/fondolateral"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+
+    <TextView
+        android:id="@+id/txtNomApe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="135dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Ricardo Asencio"
+        android:gravity="right"
+        android:textColor="@color/primary_text"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txtCorreo"
+        android:layout_width="252dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="right"
+        android:text="correo@correo.com"
+        android:textColor="@color/primary_text"
+        android:textSize="14sp" />
+</FrameLayout>
