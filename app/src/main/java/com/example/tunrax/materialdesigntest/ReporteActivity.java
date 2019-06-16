@@ -97,7 +97,7 @@ public class ReporteActivity extends AppCompatActivity {
 
         try {
 
-            url = ("http://7a144ad2.ngrok.io/respaldarReporte.php?idUsuario=" + id
+            url = ("http://b227b69e.ngrok.io/respaldarReporte.php?idUsuario=" + id
                     + "&titulo=" + titulo
                     + "&descripcion=" + descripcion);
             url = url.replaceAll(" ", "%20");

@@ -175,6 +175,15 @@
                 android:layout_marginTop="130dp"
                 android:clickable="true"
                 app:srcCompat="@drawable/starblack" />
+
+            <Button
+                android:id="@+id/btnPedir"
+                style="@style/AppTheme.RoundedCornerMaterialButton"
+                android:layout_width="179dp"
+                android:layout_height="71dp"
+                android:layout_marginLeft="110dp"
+                android:layout_marginTop="730dp"
+                android:text="Realizar pedido" />
         </FrameLayout>
     </ScrollView>
 </RelativeLayout>

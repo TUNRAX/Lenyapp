@@ -198,7 +198,7 @@ public class mapFragment extends Fragment {
                             e.printStackTrace();
                         }
                         String jsonString1 = userJson1.toString();
-                        String url1 = "http://7a144ad2.ngrok.io/BuscarProveedor.php";
+                        String url1 = "http://b227b69e.ngrok.io/BuscarProveedor.php";
                         try {
                             Back ejec = new Back(new Back.AsyncResponse() {
                                 @Override
@@ -252,11 +252,12 @@ public class mapFragment extends Fragment {
                                             e.printStackTrace();
                                         }
                                         String jsonString2 = userJson2.toString();
-                                        String url2 = "http://7a144ad2.ngrok.io/BuscarLenya.php";
+                                        String url2 = "http://b227b69e.ngrok.io/BuscarLenya.php";
                                         try {
                                             Back ejec2 = new Back(new Back.AsyncResponse() {
                                                 @Override
                                                 public void processFinish(String jsonResult2) {
+                                                    int idDetalle = 0;
                                                     int precioUnitario = 0;
                                                     int ventaMinima = 0;
                                                     String producto = "";
@@ -269,6 +270,7 @@ public class mapFragment extends Fragment {
                                                         }
 
                                                         for (int i = 0; i < listaDatos.size(); i++) {
+                                                            idDetalle = listaDatos.get(i).getId();
                                                             precioUnitario = listaDatos.get(i).getPrecioUnitario();
                                                             ventaMinima = listaDatos.get(i).getVentaMinima();
                                                             producto = listaDatos.get(i).getProducto();
@@ -286,6 +288,7 @@ public class mapFragment extends Fragment {
                                                         i.putExtra("fono2", fono2Pass);
                                                         i.putExtra("ciudad", ciudadPass);
                                                         i.putExtra("calificacion", calificacionPass);
+                                                        i.putExtra("idDetalle", idDetalle);
                                                         i.putExtra("precioUnitario", precioUnitario);
                                                         i.putExtra("ventaMinima", ventaMinima);
                                                         i.putExtra("producto", producto);

@@ -206,7 +206,7 @@ public class FavoritoActivity extends AppCompatActivity {
 
         try {
 
-            url = new URL("http://7a144ad2.ngrok.io/obtenerListaFavoritos.php?idUsuario=" + id);
+            url = new URL("http://b227b69e.ngrok.io/obtenerListaFavoritos.php?idUsuario=" + id);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             respuesta = connection.getResponseCode();
 
@@ -236,7 +236,7 @@ public class FavoritoActivity extends AppCompatActivity {
 
         try {
 
-            url = ("http://7a144ad2.ngrok.io/calificacion.php?idUsuario=" + idUsuario
+            url = ("http://b227b69e.ngrok.io/calificacion.php?idUsuario=" + idUsuario
                     + "&idProveedor=" + idProveedor);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
@@ -266,7 +266,7 @@ public class FavoritoActivity extends AppCompatActivity {
 
         try {
 
-            url = ("http://7a144ad2.ngrok.io/verificarCalificacion.php?idUsuario=" + idUsuario
+            url = ("http://b227b69e.ngrok.io/verificarCalificacion.php?idUsuario=" + idUsuario
                     + "&idProveedor=" + idProveedor);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
@@ -299,7 +299,7 @@ public class FavoritoActivity extends AppCompatActivity {
 
         try {
 
-            url = ("http://7a144ad2.ngrok.io/eliminarCalificacion.php?idUsuario=" + idUsuario
+            url = ("http://b227b69e.ngrok.io/eliminarCalificacion.php?idUsuario=" + idUsuario
                     + "&idProveedor=" + idProveedor);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
