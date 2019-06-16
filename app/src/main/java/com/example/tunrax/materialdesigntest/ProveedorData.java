@@ -285,13 +285,16 @@ public class ProveedorData extends AppCompatActivity
                                                                     queue.add(stringRequest);
 
                                                                     if (verificado[0] == 1) {
-                                                                        Toast.makeText(ProveedorData.this, "Funco", Toast.LENGTH_SHORT).show();
+                                                                        Toast.makeText(ProveedorData.this, "Redireccionando", Toast.LENGTH_SHORT).show();
+                                                                        Intent i = new Intent(getApplicationContext(), MapsActivity2.class);
+                                                                        i.putExtra("idHistorial", idHistorial[0]);
+                                                                        startActivity(i);
                                                                         progressDoalog.dismiss();
                                                                         finalizar[0] = 1;
 
 
                                                                     } else if (verificado[0] == 2) {
-                                                                        Toast.makeText(ProveedorData.this, "Funco pero F", Toast.LENGTH_SHORT).show();
+                                                                        Toast.makeText(ProveedorData.this, "Leñador no disponible", Toast.LENGTH_LONG).show();
                                                                         progressDoalog.dismiss();
                                                                         finalizar[0] = 1;
 
