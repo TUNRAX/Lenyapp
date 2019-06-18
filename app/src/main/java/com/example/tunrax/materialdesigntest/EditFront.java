@@ -215,7 +215,7 @@ public class EditFront extends Fragment {
 
         try {
 
-            url = ("http://84361097.ngrok.io/actualizarUsuario.php?idUsuario=" + idUsu
+            url = ("http://b227b69e.ngrok.io/actualizarUsuario.php?idUsuario=" + idUsu
                     + "&nombre=" + nombreRecibido
                     + "&apellido=" + apellidoRecibido
                     + "&direccion=" + direccionRecibido
@@ -252,7 +252,7 @@ public class EditFront extends Fragment {
 
         try {
 
-            url =("http://84361097.ngrok.io/RegistroCliente.php?nombre="+nombre
+            url =("http://b227b69e.ngrok.io/RegistroCliente.php?nombre="+nombre
                     +"&apellido="+apellido
                     +"&rut="+rut
                     +"&direccion="+direccion

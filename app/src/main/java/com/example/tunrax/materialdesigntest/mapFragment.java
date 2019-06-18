@@ -198,7 +198,7 @@ public class mapFragment extends Fragment {
                             e.printStackTrace();
                         }
                         String jsonString1 = userJson1.toString();
-                        String url1 = "http://84361097.ngrok.io/BuscarProveedor.php";
+                        String url1 = "http://b227b69e.ngrok.io/BuscarProveedor.php";
                         try {
                             Back ejec = new Back(new Back.AsyncResponse() {
                                 @Override
@@ -252,7 +252,7 @@ public class mapFragment extends Fragment {
                                             e.printStackTrace();
                                         }
                                         String jsonString2 = userJson2.toString();
-                                        String url2 = "http://84361097.ngrok.io/BuscarLenya.php";
+                                        String url2 = "http://b227b69e.ngrok.io/BuscarLenya.php";
                                         try {
                                             Back ejec2 = new Back(new Back.AsyncResponse() {
                                                 @Override

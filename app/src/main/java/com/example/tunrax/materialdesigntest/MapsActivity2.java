@@ -173,7 +173,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         final int idHistorial = bundle.getInt("idHistorial");
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://84361097.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial;
+        String url = "http://b227b69e.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -337,7 +337,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
         try {
 
-            url = new URL("http://84361097.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial);
+            url = new URL("http://b227b69e.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             respuesta = connection.getResponseCode();
 
