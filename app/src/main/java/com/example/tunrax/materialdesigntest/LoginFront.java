@@ -163,7 +163,7 @@ public class LoginFront extends Fragment {
                             e.printStackTrace();
                         }
                         String jsonString1 = userJson1.toString();
-                        String url1 = "http://b227b69e.ngrok.io/login.php";
+                        String url1 = "http://84361097.ngrok.io/login.php";
                         try {
                             Back ejec = new Back(new Back.AsyncResponse() {
                                 @Override
@@ -195,7 +195,7 @@ public class LoginFront extends Fragment {
                                             Toast.makeText(getActivity().getApplicationContext(), "Cargando... por favor espere", Toast.LENGTH_LONG).show();
                                             if (loginOk) {
                                                 String jsonString2 = "yolo";
-                                                String url2 = "http://b227b69e.ngrok.io/ListaProveedores.php";
+                                                String url2 = "http://84361097.ngrok.io/ListaProveedores.php";
                                                 try {
                                                     Back ejec2 = new Back(new Back.AsyncResponse() {
                                                         @Override
@@ -296,7 +296,7 @@ public class LoginFront extends Fragment {
 
         try {
 
-            url = new URL("http://b227b69e.ngrok.io/checkearRol.php?correo=" + user
+            url = new URL("http://84361097.ngrok.io/checkearRol.php?correo=" + user
                     + "&contrasenya=" + pass);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             respuesta = connection.getResponseCode();
@@ -326,7 +326,7 @@ public class LoginFront extends Fragment {
 
         try {
 
-            url = new URL("http://b227b69e.ngrok.io/checkearRol.php?correo=" + user
+            url = new URL("http://84361097.ngrok.io/checkearRol.php?correo=" + user
                     + "&contrasenya=" + pass);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             respuesta = connection.getResponseCode();

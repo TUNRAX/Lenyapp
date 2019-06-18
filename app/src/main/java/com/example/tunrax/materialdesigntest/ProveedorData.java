@@ -76,8 +76,8 @@ public class ProveedorData extends AppCompatActivity
         final int idDetalle = bundle.getInt("idDetalle");
         int calificacion = bundle.getInt("calificacion");
         final int idProveedor = bundle.getInt("idProveedor");
-        String imageHttpAddress1 = "http://b227b69e.ngrok.io/img_nose/" + idProveedor + "_0.jpg";
-        String imageHttpAddress2 = "http://b227b69e.ngrok.io/img_nose/" + idProveedor + "_1.jpg";
+        String imageHttpAddress1 = "http://84361097.ngrok.io/img_nose/" + idProveedor + "_0.jpg";
+        String imageHttpAddress2 = "http://84361097.ngrok.io/img_nose/" + idProveedor + "_1.jpg";
         final ArrayList<Cliente> listaCliente = new ArrayList<Cliente>();
         final ArrayList<historialEnvios> listaHistorialEnvios = new ArrayList<historialEnvios>();
         final Handler handler = new Handler();
@@ -96,7 +96,7 @@ public class ProveedorData extends AppCompatActivity
             e.printStackTrace();
         }
         String jsonString2 = userJson2.toString();
-        String url2 = "http://b227b69e.ngrok.io/agregarVisita.php";
+        String url2 = "http://84361097.ngrok.io/agregarVisita.php";
         try {
             Back ejec2 = new Back(new Back.AsyncResponse() {
                 @Override
@@ -144,7 +144,7 @@ public class ProveedorData extends AppCompatActivity
                     e.printStackTrace();
                 }
                 String jsonString2 = userJson2.toString();
-                String url2 = "http://b227b69e.ngrok.io/agregarFavoritos.php";
+                String url2 = "http://84361097.ngrok.io/agregarFavoritos.php";
                 try {
                     Back ejec2 = new Back(new Back.AsyncResponse() {
                         @Override
@@ -248,7 +248,7 @@ public class ProveedorData extends AppCompatActivity
                                                                 try {
                                                                     // Instantiate the RequestQueue.
                                                                     RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                                                                    String url = "http://b227b69e.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+                                                                    String url = "http://84361097.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
 
                                                                     // Request a string response from the provided URL.
                                                                     StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -369,7 +369,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://b227b69e.ngrok.io/seleccionarIdCliente.php?idUsuario="+ id);
+            url = ("http://84361097.ngrok.io/seleccionarIdCliente.php?idUsuario="+ id);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -402,7 +402,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://b227b69e.ngrok.io/crearPedido.php?idCliente="+ idCliente +"&idDetalle="+ idDetalle);
+            url = ("http://84361097.ngrok.io/crearPedido.php?idCliente="+ idCliente +"&idDetalle="+ idDetalle);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -434,7 +434,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://b227b69e.ngrok.io/comprobarValidado.php?idHistorial="+ idHistorial);
+            url = ("http://84361097.ngrok.io/comprobarValidado.php?idHistorial="+ idHistorial);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
