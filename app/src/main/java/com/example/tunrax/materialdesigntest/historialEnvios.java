@@ -12,6 +12,24 @@ public class historialEnvios implements Parcelable {
     int validado;
     int idCliente;
     int idDetalleProducto;
+    String tipoDeCompra;
+    int pagado;
+
+    public String getTipoDeCompra() {
+        return tipoDeCompra;
+    }
+
+    public void setTipoDeCompra(String tipoDeCompra) {
+        this.tipoDeCompra = tipoDeCompra;
+    }
+
+    public int getPagado() {
+        return pagado;
+    }
+
+    public void setPagado(int pagado) {
+        this.pagado = pagado;
+    }
 
     public historialEnvios() {
     }
@@ -22,6 +40,8 @@ public class historialEnvios implements Parcelable {
         this.validado = validado;
         this.idCliente = idCliente;
         this.idDetalleProducto = idDetalleProducto;
+        this.tipoDeCompra = tipoDeCompra;
+        this.pagado = pagado;
     }
 
     public int getId() {
@@ -74,6 +94,8 @@ public class historialEnvios implements Parcelable {
         validado = in.readInt();
         idCliente = in.readInt();
         idDetalleProducto = in.readInt();
+        tipoDeCompra = in.readString();
+        pagado = in.readInt();
     }
 
     public static final Creator<historialEnvios> CREATOR = new Creator<historialEnvios>() {
@@ -99,6 +121,8 @@ public class historialEnvios implements Parcelable {
         validado =objetoJSON.getInt("validado");
         idCliente = objetoJSON.getInt("id_cliente");
         idDetalleProducto = objetoJSON.getInt("id_detalle_producto");
+        tipoDeCompra = objetoJSON.getString("tipoDeCompra");
+        pagado = objetoJSON.getInt("pagado");
 
     }
 
@@ -109,5 +133,7 @@ public class historialEnvios implements Parcelable {
         dest.writeInt(validado);
         dest.writeInt(idCliente);
         dest.writeInt(idDetalleProducto);
+        dest.writeString(tipoDeCompra);
+        dest.writeInt(pagado);
     }
 }

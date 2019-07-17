@@ -124,7 +124,7 @@ public class TablaReportes extends AppCompatActivity {
 
         try {
 
-            url = new URL("http://b227b69e.ngrok.io/obtenerReportes.php?idUsuario=" + id);
+            url = new URL("http://9f44d8db.ngrok.io/obtenerReportes.php?idUsuario=" + id);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             respuesta = connection.getResponseCode();
 

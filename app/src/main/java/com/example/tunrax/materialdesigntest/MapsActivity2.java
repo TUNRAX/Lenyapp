@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -12,11 +14,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.Manifest;
@@ -67,19 +73,34 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     private Location mLocation;
     private LocationManager mLocationManager;
     private LocationRequest mLocationRequest;
+    private ImageButton btnBrujula;
     private com.google.android.gms.location.LocationListener listener;
-    private long UPDATE_INTERVAL = 6000;  /* 10 secs */
-    private long FASTEST_INTERVAL = 3000; /* 20 sec */
+    private long UPDATE_INTERVAL = 6000;  /* 6 segundos */
+    private long FASTEST_INTERVAL = 3000; /* 3 segundos */
+    double latitude = 0;
+    double longitude = 0;
+    String tipoDeCompra = "";
+    int idHistorial = 0;
+    boolean yaEjecutado = false;
+
 
     private LocationManager locationManager;
     private LatLng latLng;
+    LatLng latLngUsuario;
+    private Marker marker;
+    private Marker marker2;
     private boolean isPermission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps2);
-
+        SharedPreferences prefs = getSharedPreferences("MyPrefsFile", MODE_PRIVATE);
+        String correo = prefs.getString("correo", " ");//"No name defined" is the default value.
+        final int id = prefs.getInt("id", 0); //0 is the default value.
+        Bundle bundle = getIntent().getExtras();
+        tipoDeCompra = bundle.getString("tipoCompra");
+        idHistorial = bundle.getInt("idHistorial");
         if (requestSinglePermission()) {
             // Obtain the SupportMapFragment and get notified when the map is ready to be used.
             //it was pre written
@@ -120,8 +141,90 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         mMap = googleMap;
 
         if (latLng != null) {
-            mMap.addMarker(new MarkerOptions().position(latLng).title("Marker in Current Location"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            if(marker==null){
+
+                MarkerOptions userIndicator = new MarkerOptions()
+                        .position(latLng)
+                        .title("Leñador")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.deliverytruck));
+                marker = googleMap.addMarker(userIndicator);
+
+                MarkerOptions userIndicator2 = new MarkerOptions()
+                        .position(latLngUsuario)
+                        .title("Usted")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.placeholder));
+                marker2 = googleMap.addMarker(userIndicator2);
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                builder.include(latLng);
+                builder.include(latLngUsuario);
+                final LatLngBounds bounds = builder.build();
+
+                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
+                mMap.animateCamera(cu, new GoogleMap.CancelableCallback(){
+                    public void onCancel(){}
+                    public void onFinish(){
+                        CameraUpdate zout = CameraUpdateFactory.zoomBy((float) -0.2);
+                        mMap.animateCamera(zout);
+                    }
+                });
+            }else {
+                marker.remove();
+                marker2.remove();
+                MarkerOptions userIndicator = new MarkerOptions()
+                        .position(latLng)
+                        .title("Leñador")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.deliverytruck));
+                marker = googleMap.addMarker(userIndicator);
+
+
+                MarkerOptions userIndicator2 = new MarkerOptions()
+                        .position(latLngUsuario)
+                        .title("Usted")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.placeholder));
+                marker2 = googleMap.addMarker(userIndicator2);
+
+            }
+
+            if(marker.isVisible() && marker2.isVisible()){
+                if(!yaEjecutado) {
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    builder.include(latLng);
+                    builder.include(latLngUsuario);
+                    final LatLngBounds bounds = builder.build();
+
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
+                    mMap.animateCamera(cu, new GoogleMap.CancelableCallback(){
+                        public void onCancel(){}
+                        public void onFinish(){
+                            CameraUpdate zout = CameraUpdateFactory.zoomBy((float) -0.2);
+                            mMap.animateCamera(zout);
+                        }
+                    });
+                    yaEjecutado= true;
+                }
+            }
+            btnBrujula = (ImageButton) findViewById(R.id.btnBrujula);
+            btnBrujula.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    builder.include(latLng);
+                    builder.include(latLngUsuario);
+                    final LatLngBounds bounds = builder.build();
+
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
+                    mMap.animateCamera(cu, new GoogleMap.CancelableCallback(){
+                        public void onCancel(){}
+                        public void onFinish(){
+                            CameraUpdate zout = CameraUpdateFactory.zoomBy((float) -0.2);
+                            mMap.animateCamera(zout);
+                        }
+                    });
+                }
+            });
         }
     }
 
@@ -147,36 +250,77 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         }
         if (mLocation != null) {
 
-            // mLatitudeTextView.setText(String.valueOf(mLocation.getLatitude()));
-            //mLongitudeTextView.setText(String.valueOf(mLocation.getLongitude()));
         } else {
-            Toast.makeText(this, "Location not Detected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Localizacion No detectada", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.i(TAG, "Connection Suspended");
+        Log.i(TAG, "Conexion suspendida");
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.i(TAG, "Connection failed. Error: " + connectionResult.getErrorCode());
+        Log.i(TAG, "Conexion fallida. Error: " + connectionResult.getErrorCode());
     }
 
 
     @Override
     public void onLocationChanged(Location location ) {
         final ArrayList<Coordenadas> listaCoordenadas = new ArrayList<Coordenadas>();
-        Bundle bundle = getIntent().getExtras();
-        final int idHistorial = bundle.getInt("idHistorial");
-        // Instantiate the RequestQueue.
+        String msg = "Updated Location: " +
+                Double.toString(location.getLatitude()) + "," +
+                Double.toString(location.getLongitude());
+        final String latitudOut = String.valueOf(location.getLatitude());
+        final String longitudOut = String.valueOf(location.getLongitude());
+        double latitdUsu = Double.parseDouble(latitudOut);
+        double longitudUsu = Double.parseDouble(longitudOut);
+        latLngUsuario = new LatLng(latitdUsu, longitudUsu);
+        Location leñadorGEO = new Location(LocationManager.GPS_PROVIDER);
+        leñadorGEO.setLatitude(latitude);
+        leñadorGEO.setLongitude(longitude);
+        Location usuarioGEO = new Location(LocationManager.GPS_PROVIDER);
+        usuarioGEO.setLatitude(latitdUsu);
+        usuarioGEO.setLongitude(longitudUsu);
+
+        if(leñadorGEO.distanceTo(usuarioGEO) < 100) {
+
+        Intent i = new Intent(getApplicationContext(), trackingRealizado.class);
+            i.putExtra("idHistorial", idHistorial);
+            i.putExtra("tipoCompra", tipoDeCompra);
+        startActivity(i);
+
+        }
+    // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://b227b69e.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial;
+        String url ="http://9f44d8db.ngrok.io/trackingUsuario.php?idHistorial="+ idHistorial +"&lat="+ latitudOut +"&long="+ longitudOut;
+
+    // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MapsActivity2.this, "Esto no deberia pasar", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+
+        ////////////////////////////////////////////////////////
+        // Instantiate the RequestQueue.
+        RequestQueue queue1 = Volley.newRequestQueue(this);
+        String url1 = "http://9f44d8db.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial;
 
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -200,8 +344,8 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
                                 String latitud = listaCoordenadas.get(i).getLatitud();
                                 String longitud = listaCoordenadas.get(i).getLongitud();
-                                double latitude = Double.parseDouble(latitud);
-                                double longitude = Double.parseDouble(longitud);
+                                latitude = Double.parseDouble(latitud);
+                                longitude = Double.parseDouble(longitud);
 
                                 latLng = new LatLng(latitude, longitude);
                                 Toast.makeText(MapsActivity2.this, "Localizacion cambiada", Toast.LENGTH_SHORT).show();
@@ -215,12 +359,12 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MapsActivity2.this, "F", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity2.this, "Fallo Inesperado", Toast.LENGTH_SHORT).show();
             }
         });
 
         // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        queue.add(stringRequest1);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -273,10 +417,10 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
     private void showAlert() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("Enable Location")
-                .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " +
-                        "use this app")
-                .setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+        dialog.setTitle("Habilitar localizacion")
+                .setMessage("Tienes tu localizacion de tu movil apagada.\nPor favor habilitala para " +
+                        "usar esta aplicacion")
+                .setPositiveButton("Configuraciones de locaclizacion", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
 
@@ -284,7 +428,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                         startActivity(myIntent);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
 
@@ -306,14 +450,13 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse response) {
-                        //Single Permission is granted
-                        Toast.makeText(MapsActivity2.this, "Single permission is granted!", Toast.LENGTH_SHORT).show();
+                        //aceptacion del permiso
                         isPermission = true;
                     }
 
                     @Override
                     public void onPermissionDenied(PermissionDeniedResponse response) {
-                        // check for permanent denial of permission
+                        // Denegacion del permiso
                         if (response.isPermanentlyDenied()) {
                             isPermission = false;
                         }
@@ -329,33 +472,5 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
     }
 
-    public String coordenadas(int idHistorial) {
-        URL url = null;
-        String linea = "";
-        int respuesta = 0;
-        StringBuilder resultado = null;
-
-        try {
-
-            url = new URL("http://b227b69e.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            respuesta = connection.getResponseCode();
-
-            resultado = new StringBuilder();
-
-            if (respuesta == HttpURLConnection.HTTP_OK) {
-                InputStream inputStream = new BufferedInputStream(connection.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                while ((linea = reader.readLine()) != null) {
-                    resultado.append(linea);
-                }
-            }
-
-        } catch (Exception e) {
-        }
-
-        return resultado.toString();
-    }
 
 }

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class Coordenadas implements Parcelable {
     String Latitud = "";
     String Longitud = "";
+    String lat_usu = "";
+    String long_usu = "";
     private ArrayList<Coordenadas> lista_coordenadas = new ArrayList<Coordenadas>();
     public Coordenadas() {
     }
@@ -18,9 +20,29 @@ public class Coordenadas implements Parcelable {
     public Coordenadas(String latitud, String longitud) {
         Latitud = latitud;
         Longitud = longitud;
+        lat_usu = lat_usu;
+        long_usu = long_usu;
     }
 
+    public String getLat_usu() {
+        return lat_usu;
+    }
 
+    public void setLat_usu(String lat_usu) {
+        this.lat_usu = lat_usu;
+    }
+
+    public String getLong_usu() {
+        return long_usu;
+    }
+
+    public void setLong_usu(String long_usu) {
+        this.long_usu = long_usu;
+    }
+
+    public static Creator<Coordenadas> getCREATOR() {
+        return CREATOR;
+    }
 
     public String getLatitud() {
         return Latitud;
@@ -45,6 +67,8 @@ public class Coordenadas implements Parcelable {
     public Coordenadas(JSONObject objetoJSON)throws JSONException {
         Latitud =objetoJSON.getString("lat");
         Longitud =objetoJSON.getString("long");
+        lat_usu =objetoJSON.getString("lat_usu");
+        long_usu= objetoJSON.getString("long_usu");
     }
 
 
@@ -75,6 +99,8 @@ public class Coordenadas implements Parcelable {
     protected Coordenadas(Parcel in) {
         Latitud = in.readString();
         Longitud = in.readString();
+        lat_usu = in.readString();
+        long_usu = in.readString();
         lista_coordenadas = in.createTypedArrayList(Coordenadas.CREATOR);
 
     }

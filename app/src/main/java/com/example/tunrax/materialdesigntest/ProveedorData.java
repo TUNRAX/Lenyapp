@@ -55,6 +55,7 @@ public class ProveedorData extends AppCompatActivity
     String fono1Fragment = "";
     String fono2Fragment = "";
     ProgressDialog progressDoalog;
+    public static final String MY_PREFS_NAME = "MyPrefsFile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,8 @@ public class ProveedorData extends AppCompatActivity
         fono1Fragment = fono1;
         String fono2 = bundle.getString("fono2");
         fono2Fragment = fono2;
+        final String[] tipoDeCompra = {""};
+
         String nombreProv = bundle.getString("nombreProv");
         String apellidoProv = bundle.getString("apellidoProv");
         String nomEmpresa = bundle.getString("nomEmpresa");
@@ -76,12 +79,11 @@ public class ProveedorData extends AppCompatActivity
         final int idDetalle = bundle.getInt("idDetalle");
         int calificacion = bundle.getInt("calificacion");
         final int idProveedor = bundle.getInt("idProveedor");
-        String imageHttpAddress1 = "http://84361097.ngrok.io/img_nose/" + idProveedor + "_0.jpg";
-        String imageHttpAddress2 = "http://84361097.ngrok.io/img_nose/" + idProveedor + "_1.jpg";
+        String imageHttpAddress1 = "http://9f44d8db.ngrok.io/img_nose/" + idProveedor + "_0.jpg";
+        String imageHttpAddress2 = "http://9f44d8db.ngrok.io/img_nose/" + idProveedor + "_1.jpg";
         final ArrayList<Cliente> listaCliente = new ArrayList<Cliente>();
         final ArrayList<historialEnvios> listaHistorialEnvios = new ArrayList<historialEnvios>();
         final Handler handler = new Handler();
-
 
 
         setContentView(R.layout.activity_proveedor_data);
@@ -96,7 +98,7 @@ public class ProveedorData extends AppCompatActivity
             e.printStackTrace();
         }
         String jsonString2 = userJson2.toString();
-        String url2 = "http://84361097.ngrok.io/agregarVisita.php";
+        String url2 = "http://9f44d8db.ngrok.io/agregarVisita.php";
         try {
             Back ejec2 = new Back(new Back.AsyncResponse() {
                 @Override
@@ -144,7 +146,7 @@ public class ProveedorData extends AppCompatActivity
                     e.printStackTrace();
                 }
                 String jsonString2 = userJson2.toString();
-                String url2 = "http://84361097.ngrok.io/agregarFavoritos.php";
+                String url2 = "http://9f44d8db.ngrok.io/agregarFavoritos.php";
                 try {
                     Back ejec2 = new Back(new Back.AsyncResponse() {
                         @Override
@@ -164,6 +166,153 @@ public class ProveedorData extends AppCompatActivity
             }
         });
 
+        final Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    int idCliente = 0;
+                    final int[] idHistorial = {0};
+                    final int[] verificado = {0};
+                    final String obtenidaidCliente = obtenerIdCliente(id);
+
+                    try {
+
+                        JSONObject jsonObjectCliente = new JSONObject(obtenidaidCliente);
+                        JSONObject idClienteJson = jsonObjectCliente.getJSONObject("idCliente");
+                        listaCliente.add(new Cliente(idClienteJson));
+
+
+                        for (int i = 0; i < listaCliente.size(); i++) {
+                            idCliente = listaCliente.get(i).getId();
+
+                        }
+
+
+                    } catch (Exception e) {
+                        Log.e("app", "exception", e);
+                    }
+
+                    RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
+
+                    String url = "http://9f44d8db.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra[0];
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    String pedidoCreado = response;
+                                    try {
+                                        JSONObject jsonObjectHistorial = new JSONObject(pedidoCreado);
+                                        JSONObject idHistorialJson = jsonObjectHistorial.getJSONObject("idHistorial");
+                                        listaHistorialEnvios.add(new historialEnvios(idHistorialJson));
+                                        for (int i = 0; i < listaHistorialEnvios.size(); i++) {
+                                            idHistorial[0] = listaHistorialEnvios.get(i).getId();
+
+                                        }
+
+                                    } catch (Exception e) {
+                                        Log.e("app", "exception", e);
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(ProveedorData.this, "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    queue.add(stringRequest);
+
+
+                    final int[] finalizar = {0};
+                    final Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                // Instantiate the RequestQueue.
+                                RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
+                                String url = "http://9f44d8db.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+
+                                // Request a string response from the provided URL.
+                                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                                        new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                // Display the first 500 characters of the response string.
+                                                String verificar = response;
+                                                try {
+                                                    JSONObject jsonObjectHistorial = new JSONObject(verificar);
+                                                    JSONObject idHistorialJson = jsonObjectHistorial.getJSONObject("validado");
+                                                    listaHistorialEnvios.add(new historialEnvios(idHistorialJson));
+
+                                                    for (int i = 0; i < listaHistorialEnvios.size(); i++) {
+                                                        verificado[0] = listaHistorialEnvios.get(i).getValidado();
+
+                                                    }
+
+
+                                                } catch (Exception e) {
+                                                    Log.e("app", "exception", e);
+                                                }
+                                            }
+
+
+                                        }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(ProveedorData.this, "Error", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+
+                                queue.add(stringRequest);
+
+                                if (verificado[0] == 4) {
+                                    Toast.makeText(ProveedorData.this, "Redireccionando", Toast.LENGTH_SHORT).show();
+                                    SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                                    editor.putString("idHistorial", String.valueOf(idHistorial[0]));
+                                    editor.apply();
+
+                                    Intent i = new Intent(getApplicationContext(), MapsActivity2.class);
+                                    i.putExtra("idHistorial", idHistorial[0]);
+                                    i.putExtra("tipoCompra", tipoDeCompra[0]);
+                                    startActivity(i);
+                                    progressDoalog.dismiss();
+                                    finalizar[0] = 1;
+
+
+                                } else if (verificado[0] == 2) {
+                                    Toast.makeText(ProveedorData.this, "Leñador no disponible", Toast.LENGTH_LONG).show();
+                                    progressDoalog.dismiss();
+                                    finalizar[0] = 1;
+
+                                } else {
+                                    handle.postDelayed(this, 10000);
+                                }
+
+                            } catch (Exception e) {
+                                Log.e("app", "exception", e);
+                            }
+
+
+                        }
+
+                    };
+
+                    if (finalizar[0] == 1) {
+                        handler.removeCallbacks(runnable);
+                    } else {
+                        handler.postDelayed(runnable, 10000);
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
         btnPedir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,163 +323,48 @@ public class ProveedorData extends AppCompatActivity
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 //Yes button clicked
-                                progressDoalog = new ProgressDialog(ProveedorData.this);
-                                progressDoalog.setMessage("Espere mientras nos contactamos con el proveedor");
-                                progressDoalog.setTitle("Se esta procesando el pedido");
-                                progressDoalog.show();
-                                new Thread(new Runnable() {
+                                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void run() {
-                                        try {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        switch (which) {
+                                            case DialogInterface.BUTTON_POSITIVE:
+                                                tipoDeCompra[0] = "khipu";
+                                                progressDoalog = new ProgressDialog(ProveedorData.this);
+                                                progressDoalog.setMessage("Espere mientras nos contactamos con el proveedor");
+                                                progressDoalog.setTitle("Se esta procesando el pedido");
+                                                progressDoalog.show();
+                                                t1.start();
+                                                break;
 
-                                                int idCliente = 0;
-                                                final int[] idHistorial = {0};
-                                                final int[] verificado = {0};
-                                                final String obtenidaidCliente = obtenerIdCliente(id);
+                                            case DialogInterface.BUTTON_NEGATIVE:
+                                                tipoDeCompra[0] = "efectivo";
+                                                progressDoalog = new ProgressDialog(ProveedorData.this);
+                                                progressDoalog.setMessage("Espere mientras nos contactamos con el proveedor");
+                                                progressDoalog.setTitle("Se esta procesando el pedido");
+                                                progressDoalog.show();
+                                                t1.start();
+                                                break;
 
-                                                try {
-
-                                                    JSONObject jsonObjectCliente = new JSONObject(obtenidaidCliente);
-                                                    JSONObject idClienteJson = jsonObjectCliente.getJSONObject("idCliente");
-                                                    listaCliente.add(new Cliente(idClienteJson));
-
-                                                    /*JSONObject object = new JSONObject(obtenidaidCliente);
-                                                    JSONArray Jarray  = object.getJSONArray("idCliente");*/
-                                                    //JSONArray ja = new JSONObject(obtenidaidCliente).getJSONArray("idCliente");
-                                                    /*JSONObject jsonObjectCliente = obtenidaidCliente.getJSONArray("idCliente");
-                                                    Iterator<?> keys = jsonObjectCliente.keys();
-
-                                                    for (int i = 0; i < ja.length(); i++)
-                                                    {
-                                                        JSONObject Jasonobject = ja.getJSONArray("idCliente")(i);
-                                                        listaCliente.add(new Cliente(Jasonobject));
-                                                    }*/
-
-                                                    /*JSONObject jsonObjectCliente = new JSONObject(obtenidaidCliente);
-                                                    JSONArray jsonArrayCliente = jsonObjectCliente.getJSONArray("idCliente");
-                                                    for (int x = 0; x < jsonArrayCliente.length(); x++) {
-                                                        listaCliente.add(new Cliente(jsonArrayCliente.getJSONObject(x)));
-                                                    }*/
-                                                    for (int i = 0; i < listaCliente.size(); i++) {
-                                                        idCliente = listaCliente.get(i).getId();
-
-                                                    }
-
-
-                                                } catch (Exception e) {
-                                                    Log.e("app", "exception", e);
-                                                }
-                                                final String pedidoCreado = crearPedido(idCliente, idDetalle);
-                                                try {
-                                                    JSONObject jsonObjectHistorial = new JSONObject(pedidoCreado);
-                                                    JSONObject idHistorialJson = jsonObjectHistorial.getJSONObject("idHistorial");
-                                                    listaHistorialEnvios.add(new historialEnvios(idHistorialJson));
-                                                    /*JSONObject jsonObjectHistorial = new JSONObject(pedidoCreado);
-                                                    JSONArray jsonArrayHistorial = jsonObjectHistorial.getJSONArray("idHistorial");
-                                                    for (int x = 0; x < jsonArrayHistorial.length(); x++) {
-                                                        listaHistorialEnvios.add(new historialEnvios(jsonArrayHistorial.getJSONObject(x)));
-                                                    }*/
-                                                    for (int i = 0; i < listaHistorialEnvios.size(); i++) {
-                                                         idHistorial[0] = listaHistorialEnvios.get(i).getId();
-
-                                                    }
-
-                                                } catch (Exception e) {
-                                                    Log.e("app", "exception", e);
-                                                }
-
-
-                                                final int[] finalizar = {0};
-                                                //final String verificar=comprobarValido(idHistorial[0]);
-                                                final Runnable runnable = new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                try {
-                                                                    // Instantiate the RequestQueue.
-                                                                    RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                                                                    String url = "http://84361097.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
-
-                                                                    // Request a string response from the provided URL.
-                                                                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                                                                            new Response.Listener<String>() {
-                                                                                @Override
-                                                                                public void onResponse(String response) {
-                                                                                    // Display the first 500 characters of the response string.
-                                                                                    String verificar = response;
-                                                                                    try {
-                                                                                        JSONObject jsonObjectHistorial = new JSONObject(verificar);
-                                                                                        JSONObject idHistorialJson = jsonObjectHistorial.getJSONObject("validado");
-                                                                                        listaHistorialEnvios.add(new historialEnvios(idHistorialJson));
-
-                                                                                        for (int i = 0; i < listaHistorialEnvios.size(); i++) {
-                                                                                            verificado[0] = listaHistorialEnvios.get(i).getValidado();
-
-                                                                                        }
-
-
-                                                                                    } catch (Exception e) {
-                                                                                        Log.e("app", "exception", e);
-                                                                                    }
-                                                                                }
-
-
-                                                                            }, new Response.ErrorListener() {
-                                                                        @Override
-                                                                        public void onErrorResponse(VolleyError error) {
-                                                                            Toast.makeText(ProveedorData.this, "no funco esta wea", Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
-
-
-                                                                    queue.add(stringRequest);
-
-                                                                    if (verificado[0] == 1) {
-                                                                        Toast.makeText(ProveedorData.this, "Redireccionando", Toast.LENGTH_SHORT).show();
-                                                                        Intent i = new Intent(getApplicationContext(), MapsActivity2.class);
-                                                                        i.putExtra("idHistorial", idHistorial[0]);
-                                                                        startActivity(i);
-                                                                        progressDoalog.dismiss();
-                                                                        finalizar[0] = 1;
-
-
-                                                                    } else if (verificado[0] == 2) {
-                                                                        Toast.makeText(ProveedorData.this, "Leñador no disponible", Toast.LENGTH_LONG).show();
-                                                                        progressDoalog.dismiss();
-                                                                        finalizar[0] = 1;
-
-                                                                    } else {
-                                                                        handle.postDelayed(this, 10000);
-                                                                    }
-
-                                                                } catch (Exception e) {
-                                                                    Log.e("app", "exception", e);
-                                                                }
-
-
-                                                            }
-
-                                                        };
-
-                                                        if(finalizar[0] == 1) {
-                                                            handler.removeCallbacks(runnable);
-                                                        }else {
-                                                            handler.postDelayed(runnable, 10000);
-                                                        }
-
-
-
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
+                                            case DialogInterface.BUTTON_NEUTRAL:
+                                                Toast.makeText(ProveedorData.this, "Compra Cancelada", Toast.LENGTH_SHORT).show();
+                                                break;
                                         }
-
                                     }
-                                }).start();
+                                };
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ProveedorData.this);
+                                builder.setMessage("Metodo de compra").setPositiveButton("Debito/tarjeta", dialogClickListener)
+                                        .setNegativeButton("Efectivo", dialogClickListener)
+                                        .setNeutralButton("Cancelar", dialogClickListener).show();
+
+
+
 
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
                                 //No button clicked
-                                Toast.makeText(ProveedorData.this, "Ok", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProveedorData.this, "Pedido cancelado", Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
@@ -369,7 +403,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://84361097.ngrok.io/seleccionarIdCliente.php?idUsuario="+ id);
+            url = ("http://9f44d8db.ngrok.io/seleccionarIdCliente.php?idUsuario=" + id);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -393,7 +427,7 @@ public class ProveedorData extends AppCompatActivity
     }
 
 
-    public String crearPedido(int idCliente, int idDetalle) {
+    public String crearPedido(int idCliente, int idDetalle, String tipoDeCompra) {
 
         String url = null;
         String linea = "";
@@ -402,7 +436,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://84361097.ngrok.io/crearPedido.php?idCliente="+ idCliente +"&idDetalle="+ idDetalle);
+            url = ("http://9f44d8db.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -434,7 +468,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://84361097.ngrok.io/comprobarValidado.php?idHistorial="+ idHistorial);
+            url = ("http://9f44d8db.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
