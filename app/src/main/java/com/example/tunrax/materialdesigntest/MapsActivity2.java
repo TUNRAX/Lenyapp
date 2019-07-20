@@ -81,6 +81,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     double longitude = 0;
     String tipoDeCompra = "";
     int idHistorial = 0;
+    int precioOficial = 0;
     boolean yaEjecutado = false;
 
 
@@ -101,6 +102,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         Bundle bundle = getIntent().getExtras();
         tipoDeCompra = bundle.getString("tipoCompra");
         idHistorial = bundle.getInt("idHistorial");
+        precioOficial = bundle.getInt("precio");
         if (requestSinglePermission()) {
             // Obtain the SupportMapFragment and get notified when the map is ready to be used.
             //it was pre written
@@ -270,9 +272,6 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     @Override
     public void onLocationChanged(Location location ) {
         final ArrayList<Coordenadas> listaCoordenadas = new ArrayList<Coordenadas>();
-        String msg = "Updated Location: " +
-                Double.toString(location.getLatitude()) + "," +
-                Double.toString(location.getLongitude());
         final String latitudOut = String.valueOf(location.getLatitude());
         final String longitudOut = String.valueOf(location.getLongitude());
         double latitdUsu = Double.parseDouble(latitudOut);
@@ -290,12 +289,13 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         Intent i = new Intent(getApplicationContext(), trackingRealizado.class);
             i.putExtra("idHistorial", idHistorial);
             i.putExtra("tipoCompra", tipoDeCompra);
+            i.putExtra("precio",precioOficial);
         startActivity(i);
 
         }
     // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://9f44d8db.ngrok.io/trackingUsuario.php?idHistorial="+ idHistorial +"&lat="+ latitudOut +"&long="+ longitudOut;
+        String url ="http://97899ef5.ngrok.io/trackingUsuario.php?idHistorial="+ idHistorial +"&lat="+ latitudOut +"&long="+ longitudOut;
 
     // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -307,7 +307,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MapsActivity2.this, "Esto no deberia pasar", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity2.this, "Error volley", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -317,7 +317,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         ////////////////////////////////////////////////////////
         // Instantiate the RequestQueue.
         RequestQueue queue1 = Volley.newRequestQueue(this);
-        String url1 = "http://9f44d8db.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial;
+        String url1 = "http://97899ef5.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
@@ -348,7 +348,6 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                                 longitude = Double.parseDouble(longitud);
 
                                 latLng = new LatLng(latitude, longitude);
-                                Toast.makeText(MapsActivity2.this, "Localizacion cambiada", Toast.LENGTH_SHORT).show();
 
 
                             }
@@ -364,7 +363,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         });
 
         // Add the request to the RequestQueue.
-        queue.add(stringRequest1);
+        queue1.add(stringRequest1);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

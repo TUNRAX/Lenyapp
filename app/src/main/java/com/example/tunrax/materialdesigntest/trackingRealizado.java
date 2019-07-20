@@ -44,16 +44,18 @@ public class trackingRealizado extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         final String tipoDeCompra = bundle.getString("tipoCompra");
         final int idHistorial = bundle.getInt("idHistorial");
+        final int precioOficial = bundle.getInt("precio");
         btnConfirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (tipoDeCompra.equals("efectivo")) {
+                    //TODO poner la cantidad que debe pagar
                     lblPago.setVisibility(View.VISIBLE);
                     btnConfirmar.setVisibility(View.GONE);
                     int verificado = 1;
                     // Instantiate the RequestQueue.
                     RequestQueue queue = Volley.newRequestQueue(trackingRealizado.this);
-                    String url = "http://9f44d8db.ngrok.io/actualizarValidado.php?validado=" + verificado + "&idHistorial=" + idHistorial;
+                    String url = "http://97899ef5.ngrok.io/actualizarValidado.php?validado=" + verificado + "&idHistorial=" + idHistorial;
 
                     // Request a string response from the provided URL.
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -71,7 +73,7 @@ public class trackingRealizado extends AppCompatActivity {
 
                     queue.add(stringRequest);
                 } else {
-                    doPay(idHistorial);
+                    doPay(idHistorial,precioOficial);
                 }
 
             }
@@ -79,10 +81,15 @@ public class trackingRealizado extends AppCompatActivity {
         });
     }
 
-    public void doPay(final int idHistorial) {
+    public void doPay(final int idHistorial, final int precioOficial) {
         // Instantiate the RequestQueue.
+        int cincuentaMil = 50000;
+        int precioOficialInterno = 0;
+        if(precioOficial >= cincuentaMil){
+            precioOficialInterno = 50000;
+        }
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://9f44d8db.ngrok.io/server/php/create_payment.php";
+        String url = "http://97899ef5.ngrok.io/server/php/create_payment.php?precio="+ precioOficialInterno;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -130,7 +137,7 @@ public class trackingRealizado extends AppCompatActivity {
                 String idHistorial = prefs.getString("idHistorial", " ");
                 int pago = 1;
                 RequestQueue queue = Volley.newRequestQueue(trackingRealizado.this);
-                String url = "http://9f44d8db.ngrok.io/actualizarPago.php?idHistorial=" + idHistorial + "&pago=" + pago;
+                String url = "http://97899ef5.ngrok.io/actualizarPago.php?idHistorial=" + idHistorial + "&pago=" + pago;
 
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {

@@ -93,7 +93,7 @@ public class MapActivity extends AppCompatActivity
             e.printStackTrace();
         }
         String jsonString1 = userJson1.toString();
-        String url1 = "http://9f44d8db.ngrok.io/BuscarCliente.php";
+        String url1 = "http://97899ef5.ngrok.io/BuscarCliente.php";
         try {
             Back ejec = new Back(new Back.AsyncResponse() {
                 @Override
@@ -262,7 +262,7 @@ public class MapActivity extends AppCompatActivity
 
         try {
 
-            url = ("http://9f44d8db.ngrok.io/buscarUsuario.php?idUsuario=" + idUsu);
+            url = ("http://97899ef5.ngrok.io/buscarUsuario.php?idUsuario=" + idUsu);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -284,6 +284,8 @@ public class MapActivity extends AppCompatActivity
         }
         return resultado.toString();
     }
+
+
 
 }
 

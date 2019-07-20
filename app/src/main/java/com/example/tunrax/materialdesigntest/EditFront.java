@@ -145,8 +145,8 @@ public class EditFront extends Fragment {
         txtDireccionEdit.setText(direccion);
         txtFonoEdit.setText(fono);
         txtCiudadEdit.setText(ciudad);
-        txtContrasenyaEdit.setText(contrasenya);
-        txtRepContrasenyaEdit.setText(contrasenya);
+        txtContrasenyaEdit.setText("");
+        txtRepContrasenyaEdit.setText("");
 
         btnRealizar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,7 +215,7 @@ public class EditFront extends Fragment {
 
         try {
 
-            url = ("http://9f44d8db.ngrok.io/actualizarUsuario.php?idUsuario=" + idUsu
+            url = ("http://97899ef5.ngrok.io/actualizarUsuario.php?idUsuario=" + idUsu
                     + "&nombre=" + nombreRecibido
                     + "&apellido=" + apellidoRecibido
                     + "&direccion=" + direccionRecibido
@@ -252,7 +252,7 @@ public class EditFront extends Fragment {
 
         try {
 
-            url =("http://9f44d8db.ngrok.io/RegistroCliente.php?nombre="+nombre
+            url =("http://97899ef5.ngrok.io/RegistroCliente.php?nombre="+nombre
                     +"&apellido="+apellido
                     +"&rut="+rut
                     +"&direccion="+direccion

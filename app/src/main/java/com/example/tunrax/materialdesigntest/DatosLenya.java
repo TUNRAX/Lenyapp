@@ -21,7 +21,7 @@ public class DatosLenya implements Parcelable {
         id = objetoJSON.getInt("id");
         precioUnitario = objetoJSON.getInt("precio_unitario");
         ventaMinima = objetoJSON.getInt("venta_minima");
-        producto = objetoJSON.getString("producto");
+        producto = objetoJSON.getString("tipo_producto");
         medida = objetoJSON.getString("medida");
         idProveedor = objetoJSON.getInt("id_proveedor");
     }

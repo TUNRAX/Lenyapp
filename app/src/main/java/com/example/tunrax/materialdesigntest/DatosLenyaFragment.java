@@ -1,16 +1,52 @@
 package com.example.tunrax.materialdesigntest;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -33,8 +69,8 @@ public class DatosLenyaFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private static final String MY_PREFS_NAME = "MyPrefsFile";
 
-    private TextView lblTipoLenya, lblVentaMinima, lblPrecio;
 
     private OnFragmentInteractionListener mListener;
 
@@ -62,25 +98,36 @@ public class DatosLenyaFragment extends Fragment {
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        lblTipoLenya = (TextView) getView().findViewById(R.id.lblTipoLenya);
-        lblVentaMinima = (TextView) getView().findViewById(R.id.lblVentaMinima);
-        lblPrecio = (TextView) getView().findViewById(R.id.lblPrecio);
+        //TODO hacer esto rellenable hacia la derecha y como una tabla
 
 
-        Bundle b = getActivity().getIntent().getExtras();
 
-        int precioUnitario = b.getInt("precioUnitario");
-        int ventaMinima = b.getInt("ventaMinima");
-        String producto = b.getString("producto");
-        String medida = b.getString("medida");
 
-        String ventaMinimaTrans = String.valueOf(ventaMinima);
+        SharedPreferences prefs = getActivity().getSharedPreferences("MyPrefsFile", MODE_PRIVATE);
+        String correo = prefs.getString("correo", " ");//"No name defined" is the default value.
+        final int id = prefs.getInt("id", 0); //0 is the default value.
+
+
+
+
+
+    }
+
+    private View.OnClickListener ClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int selected_item = (Integer) v.getTag();
+        }
+    };
+
+        /*String ventaMinimaTrans = String.valueOf(ventaMinima);
         String concat = ventaMinimaTrans+" "+medida;
         String concat2 ="$"+precioUnitario;
         lblTipoLenya.setText(producto);
         lblVentaMinima.setText(concat);
-        lblPrecio.setText(concat2);
-    }
+        lblPrecio.setText(concat2);*/
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -140,5 +187,70 @@ public class DatosLenyaFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public String obtenerIdCliente(int id) {
+
+        String url = null;
+        String linea = "";
+        int respuesta = 0;
+        StringBuilder resultado = null;
+
+        try {
+
+            url = ("http://97899ef5.ngrok.io/seleccionarIdCliente.php?idUsuario=" + id);
+            url = url.replaceAll(" ", "%20");
+            URL sourceUrl = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
+            respuesta = connection.getResponseCode();
+
+            resultado = new StringBuilder();
+
+            if (respuesta == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = new BufferedInputStream(connection.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                while ((linea = reader.readLine()) != null) {
+                    resultado.append(linea);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultado.toString();
+    }
+
+
+    public String crearPedido(int idCliente, int idDetalle, String tipoDeCompra, int cantidad) {
+
+        String url = null;
+        String linea = "";
+        int respuesta = 0;
+        StringBuilder resultado = null;
+
+        try {
+
+            url = ("http://97899ef5.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra + "&cantidad="+cantidad);
+            url = url.replaceAll(" ", "%20");
+            URL sourceUrl = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
+            respuesta = connection.getResponseCode();
+
+            resultado = new StringBuilder();
+
+            if (respuesta == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = new BufferedInputStream(connection.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                while ((linea = reader.readLine()) != null) {
+                    resultado.append(linea);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultado.toString();
     }
 }

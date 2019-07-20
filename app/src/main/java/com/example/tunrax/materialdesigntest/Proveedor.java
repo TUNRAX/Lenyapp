@@ -19,9 +19,6 @@ public class Proveedor implements Parcelable {
     private String nombre_empresa;
     private String rut;
     private String direccion;
-    private String fono1;
-    private int activo;
-    private String fono2;
     private String ciudad;
     private int calificacion;
     private int id_usuario;
@@ -35,9 +32,6 @@ public class Proveedor implements Parcelable {
         nombre_empresa = objetoJSON.getString("nombre_empresa");
         rut = objetoJSON.getString("rut");
         direccion = objetoJSON.getString("direccion");
-        fono1 = objetoJSON.getString("fono1");
-        activo = objetoJSON.getInt("activo");
-        fono2 = objetoJSON.getString("fono2");
         ciudad = objetoJSON.getString("ciudad");
         calificacion = objetoJSON.getInt("calificacion");
         id_usuario = objetoJSON.getInt("id_usuario");
@@ -50,9 +44,6 @@ public class Proveedor implements Parcelable {
         nombre_empresa = in.readString();
         rut = in.readString();
         direccion = in.readString();
-        fono1 = in.readString();
-        activo = in.readInt();
-        fono2 = in.readString();
         ciudad = in.readString();
         calificacion = in.readInt();
         id_usuario = in.readInt();
@@ -119,30 +110,6 @@ public class Proveedor implements Parcelable {
         this.direccion = direccion;
     }
 
-    public String getFono1() {
-        return fono1;
-    }
-
-    public void setFono1(String fono1) {
-        this.fono1 = fono1;
-    }
-
-    public int getActivo() {
-        return activo;
-    }
-
-    public void setActivo(int activo) {
-        this.activo = activo;
-    }
-
-    public String getFono2() {
-        return fono2;
-    }
-
-    public void setFono2(String fono2) {
-        this.fono2 = fono2;
-    }
-
     public String getCiudad() {
         return ciudad;
     }
@@ -188,9 +155,6 @@ public class Proveedor implements Parcelable {
         dest.writeString(nombre_empresa);
         dest.writeString(rut);
         dest.writeString(direccion);
-        dest.writeString(fono1);
-        dest.writeInt(activo);
-        dest.writeString(fono2);
         dest.writeString(ciudad);
         dest.writeInt(calificacion);
         dest.writeInt(id_usuario);

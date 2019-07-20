@@ -214,7 +214,7 @@ public class TablaActivity extends AppCompatActivity {
 
         try {
 
-            url = new URL("http://9f44d8db.ngrok.io/obtenerLista.php?idUsuario=" + id);
+            url = new URL("http://97899ef5.ngrok.io/obtenerLista.php?idUsuario=" + id);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             respuesta = connection.getResponseCode();
 
@@ -244,7 +244,7 @@ public class TablaActivity extends AppCompatActivity {
 
         try {
 
-            url = ("http://9f44d8db.ngrok.io/calificacion.php?idUsuario=" + idUsuario
+            url = ("http://97899ef5.ngrok.io/calificacion.php?idUsuario=" + idUsuario
                     + "&idProveedor=" + idProveedor);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
@@ -274,7 +274,7 @@ public class TablaActivity extends AppCompatActivity {
 
         try {
 
-            url = ("http://9f44d8db.ngrok.io/verificarCalificacion.php?idUsuario=" + idUsuario
+            url = ("http://97899ef5.ngrok.io/verificarCalificacion.php?idUsuario=" + idUsuario
                     + "&idProveedor=" + idProveedor);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
@@ -307,7 +307,7 @@ public class TablaActivity extends AppCompatActivity {
 
         try {
 
-            url = ("http://9f44d8db.ngrok.io/eliminarCalificacion.php?idUsuario=" + idUsuario
+            url = ("http://97899ef5.ngrok.io/eliminarCalificacion.php?idUsuario=" + idUsuario
                     + "&idProveedor=" + idProveedor);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);

@@ -28,6 +28,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -175,6 +176,7 @@ public class mapFragment extends Fragment {
                             marca = googleMap.addMarker(new MarkerOptions()
                                     .position(coord)
                                     .title(vendedor)
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.lumberjack))
                                     .snippet(dir));
                             marca.setTag(0);
                         }
@@ -197,8 +199,9 @@ public class mapFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                         String jsonString1 = userJson1.toString();
-                        String url1 = "http://9f44d8db.ngrok.io/BuscarProveedor.php";
+                        String url1 = "http://97899ef5.ngrok.io/BuscarProveedor.php";
                         try {
                             Back ejec = new Back(new Back.AsyncResponse() {
                                 @Override
@@ -227,8 +230,6 @@ public class mapFragment extends Fragment {
                                             nomEmpresa = listaProveedor.get(i).getNombre_empresa();
                                             rut = listaProveedor.get(i).getRut();
                                             direccion = listaProveedor.get(i).getDireccion();
-                                            fono1 = listaProveedor.get(i).getFono1();
-                                            fono2 = listaProveedor.get(i).getFono2();
                                             ciudad = listaProveedor.get(i).getCiudad();
                                             calificacion = listaProveedor.get(i).getCalificacion();
                                         }
@@ -251,8 +252,9 @@ public class mapFragment extends Fragment {
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
+                                        //TODO implementar cambios para la otra pantalla
                                         String jsonString2 = userJson2.toString();
-                                        String url2 = "http://9f44d8db.ngrok.io/BuscarLenya.php";
+                                        String url2 = "http://97899ef5.ngrok.io/BuscarLenya.php";
                                         try {
                                             Back ejec2 = new Back(new Back.AsyncResponse() {
                                                 @Override
@@ -298,7 +300,7 @@ public class mapFragment extends Fragment {
                                                         startActivity(i);
                                                     } catch (Exception e) {
                                                         Toast.makeText(getActivity().getApplicationContext(), "Error al cambiar de pagina.", Toast.LENGTH_LONG).show();
-
+                                                        Log.e("app", "exception", e);
                                                     }
                                                 }
                                             });

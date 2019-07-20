@@ -14,6 +14,27 @@ public class Usuario implements Parcelable{
     String correo;
     String contrasenya;
     String idRol;
+    int activo;
+
+    public Usuario(int id, String correo, String contrasenya, String idRol, int activo, String rememberToken) {
+        this.id = id;
+        this.correo = correo;
+        this.contrasenya = contrasenya;
+        this.idRol = idRol;
+        this.activo = activo;
+    }
+
+    public Usuario() {
+    }
+
+    public int getActivo() {
+        return activo;
+    }
+
+    public void setActivo(int activo) {
+        this.activo = activo;
+    }
+
 
     public int getId() {
         return id;
@@ -53,9 +74,10 @@ public class Usuario implements Parcelable{
 
     public Usuario (JSONObject objetoJSON)throws JSONException {
         id = objetoJSON.getInt("id");
-        correo =objetoJSON.getString("correo");
+        correo =objetoJSON.getString("email");
         contrasenya = objetoJSON.getString("contrasenya");
         idRol = objetoJSON.getString("id_rol");
+        activo = objetoJSON.getInt("activo");
     }
 
     protected Usuario(Parcel in) {
@@ -63,6 +85,7 @@ public class Usuario implements Parcelable{
         correo = in.readString();
         contrasenya = in.readString();
         idRol = in.readString();
+        activo = in.readInt();
     }
 
     public static final Creator<Usuario> CREATOR = new Creator<Usuario>() {
@@ -88,5 +111,6 @@ public class Usuario implements Parcelable{
         dest.writeString(correo);
         dest.writeString(contrasenya);
         dest.writeString(idRol);
+        dest.writeInt(activo);
     }
 }
