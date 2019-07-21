@@ -52,6 +52,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 //TODO cambiar todo este sistema qlo
 public class ProveedorData extends AppCompatActivity
         implements CalificacionFragment.OnFragmentInteractionListener, Runnable {
@@ -68,7 +69,7 @@ public class ProveedorData extends AppCompatActivity
     private TextView lblTipoLenya, lblVentaMinima, lblPrecio;
     final Handler handler = new Handler();
     ProgressDialog progressDoalog;
-
+    int idUsu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +77,8 @@ public class ProveedorData extends AppCompatActivity
         String correo = prefs.getString("correo", " ");//"No name defined" is the default value.
         final int id = prefs.getInt("id", 0); //0 is the default value.
         Bundle bundle = getIntent().getExtras();
-
-
+        idUsu = id;
+        checkearPedidos(idUsu);
 
         String nombreProv = bundle.getString("nombreProv");
         String apellidoProv = bundle.getString("apellidoProv");
@@ -94,7 +95,6 @@ public class ProveedorData extends AppCompatActivity
         final ArrayList<historialEnvios> listaHistorialEnvios = new ArrayList<historialEnvios>();
 
 
-
         setContentView(R.layout.activity_proveedor_data);
 
 
@@ -107,7 +107,7 @@ public class ProveedorData extends AppCompatActivity
             e.printStackTrace();
         }
         String jsonString2 = userJson2.toString();
-        String url2 = "http://97899ef5.ngrok.io/agregarVisita.php";
+        String url2 = "http://ab70d881.ngrok.io/agregarVisita.php";
         try {
             Back ejec2 = new Back(new Back.AsyncResponse() {
                 @Override
@@ -150,7 +150,7 @@ public class ProveedorData extends AppCompatActivity
                     e.printStackTrace();
                 }
                 String jsonString2 = userJson2.toString();
-                String url2 = "http://97899ef5.ngrok.io/agregarFavoritos.php";
+                String url2 = "http://ab70d881.ngrok.io/agregarFavoritos.php";
                 try {
                     Back ejec2 = new Back(new Back.AsyncResponse() {
                         @Override
@@ -178,15 +178,15 @@ public class ProveedorData extends AppCompatActivity
         tblProductos = (TableLayout) findViewById(R.id.tblProductos);
         // btnReporte = (ImageButton) findViewById(R.id.btnReporte);
 
-        final TableRow.LayoutParams  params1=new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT,1.0f);
-        final TableRow.LayoutParams params2=new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT,1.0f);
-        final TableRow.LayoutParams params3=new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT,1.0f);
-        final TableRow.LayoutParams params4=new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT,1.0f);
-        final TableRow.LayoutParams params5=new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT,1.0f);
+        final TableRow.LayoutParams params1 = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
+        final TableRow.LayoutParams params2 = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
+        final TableRow.LayoutParams params3 = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
+        final TableRow.LayoutParams params4 = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
+        final TableRow.LayoutParams params5 = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT, 1.0f);
         final TableRow row = new TableRow(ProveedorData.this);
-        params1.setMargins(12,20,0,0);
-        params2.setMargins(12,30,0,0);
-        params3.setMargins(5,30,5,0);
+        params1.setMargins(12, 20, 0, 0);
+        params2.setMargins(12, 30, 0, 0);
+        params3.setMargins(5, 30, 5, 0);
 
 
         Thread thread1 = new Thread() {
@@ -194,7 +194,7 @@ public class ProveedorData extends AppCompatActivity
             public void run() {
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                String url ="http://97899ef5.ngrok.io/obtenerProductos.php?id="+ idProveedor;
+                String url = "http://ab70d881.ngrok.io/obtenerProductos.php?id=" + idProveedor;
 
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {
@@ -239,11 +239,11 @@ public class ProveedorData extends AppCompatActivity
 
                                             btnCarrito.setOnClickListener(new View.OnClickListener() {
                                                 public void onClick(View v) {
-                                                    if(txtCantidad.getText().toString().equals("")){
+                                                    if (txtCantidad.getText().toString().equals("")) {
                                                         Toast.makeText(ProveedorData.this, "Rellene el campo si desea pedir", Toast.LENGTH_SHORT).show();
-                                                    }else{
+                                                    } else {
                                                         final String cantidad = txtCantidad.getText().toString();
-                                                        final int precioOficial= precioUnitario * Integer.parseInt(cantidad);
+                                                        final int precioOficial = precioUnitario * Integer.parseInt(cantidad);
                                                         final Thread t1 = new Thread(new Runnable() {
                                                             @Override
                                                             public void run() {
@@ -273,7 +273,7 @@ public class ProveedorData extends AppCompatActivity
 
                                                                     RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
 
-                                                                    String url = "http://97899ef5.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra[0] + "&cantidad="+cantidad;
+                                                                    String url = "http://ab70d881.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra[0] + "&cantidad=" + cantidad;
 
                                                                     StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                                                                             new Response.Listener<String>() {
@@ -310,7 +310,7 @@ public class ProveedorData extends AppCompatActivity
                                                                             try {
                                                                                 // Instantiate the RequestQueue.
                                                                                 RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                                                                                String url = "http://97899ef5.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+                                                                                String url = "http://ab70d881.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
 
                                                                                 // Request a string response from the provided URL.
                                                                                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -383,7 +383,7 @@ public class ProveedorData extends AppCompatActivity
                                                                     if (finalizar[0] == 1) {
                                                                         handler.removeCallbacks(runnable);
                                                                     } else {
-                                                                        handler.postDelayed(runnable, 10000);
+                                                                        handler.postDelayed(runnable, 6000);
                                                                     }
 
 
@@ -436,8 +436,6 @@ public class ProveedorData extends AppCompatActivity
                                                                                 .setNeutralButton("Cancelar", dialogClickListener).show();
 
 
-
-
                                                                         break;
 
                                                                     case DialogInterface.BUTTON_NEGATIVE:
@@ -450,14 +448,14 @@ public class ProveedorData extends AppCompatActivity
 
 
                                                         AlertDialog.Builder builder = new AlertDialog.Builder(ProveedorData.this);
-                                                        builder.setMessage("¿Estas seguro que deseas hacer un pedido?, el precio sera de $"+precioOficial).setPositiveButton("Si", dialogClickListener)
+                                                        builder.setMessage("¿Estas seguro que deseas hacer un pedido?, el precio sera de $" + precioOficial).setPositiveButton("Si", dialogClickListener)
                                                                 .setNegativeButton("No", dialogClickListener).show();
 
                                                     }
                                                 }
                                             });
 
-                                            lblprecioUnitario.setText(String.valueOf("$"+precioUnitario));
+                                            lblprecioUnitario.setText(String.valueOf("$" + precioUnitario));
                                             lblprecioUnitario.setLayoutParams(params2);
                                             lblprecioUnitario.setTextSize(12);
                                             lblprecioUnitario.setTextColor(Color.parseColor("#212121"));
@@ -490,7 +488,7 @@ public class ProveedorData extends AppCompatActivity
                                             row.addView(lblMedida);
                                             row.addView(txtCantidad);
                                             row.addView(btnCarrito);
-                                            tblProductos.addView(row,i);
+                                            tblProductos.addView(row, i);
                                         }
 
                                     } catch (Exception e) {
@@ -516,13 +514,12 @@ public class ProveedorData extends AppCompatActivity
         thread1.start();
 
 
-
         /////////////////////////////////////////////////////////////////
         //TODO rellenar tabla con fotos
         tblImagenes = (TableLayout) findViewById(R.id.tblImagenes);
         final TableRow row1 = new TableRow(ProveedorData.this);
         RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-        String url = "http://97899ef5.ngrok.io/obtenerImagenes.php?idProveedor="+idProveedor;
+        String url = "http://ab70d881.ngrok.io/obtenerImagenes.php?idProveedor=" + idProveedor;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -538,16 +535,14 @@ public class ProveedorData extends AppCompatActivity
                             for (int i = 0; i < listaProductos.size(); i++) {
                                 TableRow row1 = new TableRow(ProveedorData.this);
                                 final String nombre = listaProductos.get(i).getNombre();
-                                String imageHttpAddress1 = "http://97899ef5.ngrok.io/img/" + nombre + ".jpg";
+                                String imageHttpAddress1 = "http://ab70d881.ngrok.io/img/" + nombre + ".jpg";
                                 ImageView imgFoto = new ImageView(ProveedorData.this);
                                 new LoadImage(imgFoto).execute(imageHttpAddress1);
 
 
-
                                 row1.addView(imgFoto);
-                                tblImagenes.addView(row1,i);
+                                tblImagenes.addView(row1, i);
                             }
-
 
 
                         } catch (Exception e) {
@@ -571,7 +566,247 @@ public class ProveedorData extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+    public void checkearPedidos(final int idUsu){
+        final ArrayList<historialEnvios> listaHistorialEnvios = new ArrayList<historialEnvios>();
+        final ArrayList<DatosLenya> listaDatos = new ArrayList<DatosLenya>();
+        final Handler handler = new Handler();
+        final ProgressDialog[] progressDoalog = new ProgressDialog[1];
 
+        final int[] finalizar = {0};
+        final int[] idHistorial = {0};
+        final String[] tipoDePago = {""};
+        final int[] verificado = {0};
+        final int[] precio = {0};
+        final int[] cantidad = {0};
+        final int[] precioOficial = {0};
+        final boolean[] isPaused = {true};
+        final int[] newVerificado = {0};
+        final boolean[] actionIsMade = {false};
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //final String pedidoObtenido = obtenerPedido(id);
+
+                final Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+
+                            RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
+                            String url = "http://ab70d881.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
+
+
+                            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+                                            String pedidosEncontrados = response;
+                                            try {
+                                                JSONObject jsonObjectHistorial = new JSONObject(pedidosEncontrados);
+                                                JSONObject idHistorialJson = jsonObjectHistorial.getJSONObject("historial");
+                                                JSONObject idPrecioJson = jsonObjectHistorial.getJSONObject("precio");
+                                                listaHistorialEnvios.add(new historialEnvios(idHistorialJson));
+                                                listaDatos.add(new DatosLenya(idPrecioJson));
+
+
+
+                                            } catch (Exception e) {
+                                                Log.e("app", "exception", e);
+                                            }
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(ProveedorData.this, "Error Volley", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                            queue.add(stringRequest);
+
+                            for (int i = 0; i < listaHistorialEnvios.size(); i++) {
+                                verificado[0] = listaHistorialEnvios.get(i).getValidado();
+                                idHistorial[0] = listaHistorialEnvios.get(i).getId();
+                                tipoDePago[0] = listaHistorialEnvios.get(i).getTipoDeCompra();
+                                cantidad[0] = listaHistorialEnvios.get(i).getCantidad();
+                            }
+
+                            for (int i = 0; i < listaDatos.size(); i++) {
+                                precio[0] = listaDatos.get(i).getPrecioUnitario();
+                            }
+                            precioOficial[0] = precio[0] * cantidad[0];
+                            if (verificado[0] == 5) {
+                                isPaused[0] = true;
+
+                                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        switch (which) {
+                                            case DialogInterface.BUTTON_POSITIVE:
+                                                progressDoalog[0] = new ProgressDialog(ProveedorData.this);
+                                                progressDoalog[0].setMessage("Espere mientras nos contactamos con el proveedor");
+                                                progressDoalog[0].setTitle("Se esta procesando el pedido");
+                                                progressDoalog[0].show();
+                                                final Runnable runnable = new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        try {
+                                                            if(!actionIsMade[0]) {
+                                                                newVerificado[0] = 3;
+                                                                RequestQueue queue1 = Volley.newRequestQueue(ProveedorData.this);
+                                                                String url1 = "http://ab70d881.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+
+                                                                StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
+                                                                        new Response.Listener<String>() {
+                                                                            @Override
+                                                                            public void onResponse(String response) {
+
+                                                                            }
+                                                                        }, new Response.ErrorListener() {
+                                                                    @Override
+                                                                    public void onErrorResponse(VolleyError error) {
+                                                                        Log.d("error volley", String.valueOf(error));
+                                                                    }
+                                                                });
+
+
+                                                                queue1.add(stringRequest1);
+                                                                actionIsMade[0] = true;
+                                                            }
+                                                            // Instantiate the RequestQueue.
+                                                            RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
+                                                            String url = "http://ab70d881.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+
+                                                            // Request a string response from the provided URL.
+                                                            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                                                                    new Response.Listener<String>() {
+                                                                        @Override
+                                                                        public void onResponse(String response) {
+                                                                            // Display the first 500 characters of the response string.
+                                                                            String verificar = response;
+                                                                            try {
+                                                                                JSONObject jsonObjectHistorial = new JSONObject(verificar);
+                                                                                JSONObject idHistorialJson = jsonObjectHistorial.getJSONObject("validado");
+                                                                                listaHistorialEnvios.add(new historialEnvios(idHistorialJson));
+
+                                                                                for (int i = 0; i < listaHistorialEnvios.size(); i++) {
+                                                                                    verificado[0] = listaHistorialEnvios.get(i).getValidado();
+
+                                                                                }
+
+
+                                                                            } catch (Exception e) {
+                                                                                Log.e("app", "exception", e);
+                                                                            }
+                                                                        }
+
+
+                                                                    }, new Response.ErrorListener() {
+                                                                @Override
+                                                                public void onErrorResponse(VolleyError error) {
+                                                                    Toast.makeText(ProveedorData.this, "Error", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+
+
+                                                            queue.add(stringRequest);
+
+                                                            if (verificado[0] == 4) {
+                                                                Toast.makeText(ProveedorData.this, "Redireccionando", Toast.LENGTH_SHORT).show();
+                                                                SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
+                                                                editor.putString("idHistorial", String.valueOf(idHistorial[0]));
+                                                                editor.apply();
+
+
+                                                                Intent i = new Intent(ProveedorData.this, MapsActivity2.class);
+                                                                i.putExtra("idHistorial", idHistorial[0]);
+                                                                i.putExtra("tipoCompra", tipoDePago[0]);
+                                                                i.putExtra("precio", precioOficial[0]);
+                                                                startActivity(i);
+                                                                progressDoalog[0].dismiss();
+                                                                finalizar[0] = 1;
+
+
+                                                            } else if (verificado[0] == 2) {
+                                                                Toast.makeText(ProveedorData.this, "Leñador no disponible", Toast.LENGTH_LONG).show();
+                                                                progressDoalog[0].dismiss();
+                                                                finalizar[0] = 1;
+                                                                checkearPedidos(idUsu);
+
+                                                            } else {
+                                                                handle.postDelayed(this, 10000);
+                                                            }
+
+                                                        } catch (Exception e) {
+                                                            Log.e("app", "exception", e);
+                                                        }
+
+                                                    }
+
+                                                };
+
+                                                if (finalizar[0] == 1) {
+                                                    handler.removeCallbacks(runnable);
+                                                } else {
+                                                    handler.postDelayed(runnable, 5000);
+                                                }
+                                                break;
+
+                                            case DialogInterface.BUTTON_NEGATIVE:
+                                                newVerificado[0] = 2;
+                                                RequestQueue queue1 = Volley.newRequestQueue(ProveedorData.this);
+                                                String url1 = "http://ab70d881.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+
+                                                StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
+                                                        new Response.Listener<String>() {
+                                                            @Override
+                                                            public void onResponse(String response) {
+
+                                                            }
+                                                        }, new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        Log.d("error volley", String.valueOf(error));
+                                                    }
+                                                });
+
+                                                queue1.add(stringRequest1);
+                                                checkearPedidos(idUsu);
+                                                finalizar[0] = 1;
+                                                break;
+                                        }
+                                    }
+                                };
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ProveedorData.this);
+                                builder.setMessage("Realizo un pedido por web, ¿Desea realizarlo? el precio sera de "+ precioOficial[0]).setPositiveButton("Si", dialogClickListener)
+                                        .setNegativeButton("No", dialogClickListener).show();
+
+                            } else {
+                                handle.postDelayed(this, 5000);
+                            }
+
+
+                        } catch (Exception e) {
+                            Log.e("app", "exception", e);
+                        }
+
+                    }
+
+                };
+                if (isPaused[0]) {
+                    handler.removeCallbacks(runnable);
+                } else {
+                    handler.postDelayed(runnable, 5000);
+                }
+                if (finalizar[0] == 1) {
+                    handler.removeCallbacks(runnable);
+                } else {
+                    handler.postDelayed(runnable, 5000);
+                }
+            }
+        }).start();
+    }
     private View.OnClickListener ClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -588,6 +823,7 @@ public class ProveedorData extends AppCompatActivity
         }
     };
 
+
     public String comprobarValido(int idHistorial) {
 
         String url = null;
@@ -597,7 +833,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://97899ef5.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial);
+            url = ("http://ab70d881.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -619,6 +855,7 @@ public class ProveedorData extends AppCompatActivity
         }
         return resultado.toString();
     }
+
     public String obtenerIdCliente(int id) {
 
         String url = null;
@@ -628,7 +865,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://97899ef5.ngrok.io/seleccionarIdCliente.php?idUsuario=" + id);
+            url = ("http://ab70d881.ngrok.io/seleccionarIdCliente.php?idUsuario=" + id);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -661,7 +898,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://97899ef5.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra + "&cantidad="+cantidad);
+            url = ("http://ab70d881.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra + "&cantidad=" + cantidad);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -683,6 +920,7 @@ public class ProveedorData extends AppCompatActivity
         }
         return resultado.toString();
     }
+
     @Override
     public void run() {
 
