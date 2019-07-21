@@ -94,7 +94,7 @@ public class ReporteActivity extends AppCompatActivity {
                 Log.i("SendMailActivity", "Send Button Clicked.");
 
                 String fromEmail = "reportemail@lenapp.cl";
-                String fromPassword = "callo33LOL";
+                String fromPassword = "C4lL0Wh331Ch4IrM1n3R02M1n3Cr4f7.";
                 String toEmails = "tomasalvarezyunginger@hotmail.com";
                 List toEmailList = Arrays.asList(toEmails
                         .split("\\s*,\\s*"));

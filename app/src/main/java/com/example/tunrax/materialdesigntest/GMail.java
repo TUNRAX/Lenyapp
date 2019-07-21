@@ -21,7 +21,7 @@ public class GMail extends MultiDexApplication {
     final String emailPort = "587";
     final String smtpAuth = "true";
     final String starttls = "true";
-    final String emailHost = "smtp.stackmail.com";
+    final String emailHost = "mail.lenapp.cl";
 
     String fromEmail;
     String fromPassword;

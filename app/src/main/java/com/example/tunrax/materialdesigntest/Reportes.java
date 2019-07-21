@@ -16,7 +16,7 @@ public class Reportes implements Parcelable {
         id = objetoJSON.getInt("id");
         titulo =objetoJSON.getString("titulo");
         descripcion = objetoJSON.getString("descripcion");
-        idUsuario = objetoJSON.getInt("idUsuario");
+        idUsuario = objetoJSON.getInt("id_usuario");
     }
 
     protected Reportes(Parcel in) {
