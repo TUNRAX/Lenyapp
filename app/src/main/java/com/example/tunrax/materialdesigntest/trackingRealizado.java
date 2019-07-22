@@ -55,7 +55,7 @@ public class trackingRealizado extends AppCompatActivity {
                     int verificado = 1;
                     // Instantiate the RequestQueue.
                     RequestQueue queue = Volley.newRequestQueue(trackingRealizado.this);
-                    String url = "http://ab70d881.ngrok.io/actualizarValidado.php?validado=" + verificado + "&idHistorial=" + idHistorial;
+                    String url = "http://e9eec324.ngrok.io/actualizarValidado.php?validado=" + verificado + "&idHistorial=" + idHistorial;
 
                     // Request a string response from the provided URL.
                     StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -86,10 +86,12 @@ public class trackingRealizado extends AppCompatActivity {
         int cincuentaMil = 50000;
         int precioOficialInterno = 0;
         if(precioOficial >= cincuentaMil){
-            precioOficialInterno = 50000;
+            precioOficialInterno = cincuentaMil;
+        }else{
+            precioOficialInterno = precioOficial;
         }
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://ab70d881.ngrok.io/server/php/create_payment.php?precio="+ precioOficialInterno;
+        String url = "http://e9eec324.ngrok.io/server/php/create_payment.php?precio="+ precioOficialInterno;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -103,7 +105,6 @@ public class trackingRealizado extends AppCompatActivity {
                             Intent intent = ((KhenshinApplication) getApplication()).getKhenshin().getStartTaskIntent();
                             intent.putExtra(KhenshinConstants.EXTRA_PAYMENT_ID, paymentId);  // ID DEL PAGO
                             intent.putExtra(KhenshinConstants.EXTRA_FORCE_UPDATE_PAYMENT, false); // NO FORZAR LA ACTUALIZACION DE DATOS
-                            intent.putExtra(KhenshinConstants.EXTRA_INTENT_URL, idHistorial);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // LIMPIAR EL STACK DE ACTIVIDADES
                             startActivityForResult(intent, START_PAYMENT_REQUEST_CODE); // INICIAR LA ACTIVIDAD ESPERANDO UNA RESPUESTA
                         } catch (JSONException e) {
@@ -137,7 +138,7 @@ public class trackingRealizado extends AppCompatActivity {
                 String idHistorial = prefs.getString("idHistorial", " ");
                 int pago = 1;
                 RequestQueue queue = Volley.newRequestQueue(trackingRealizado.this);
-                String url = "http://ab70d881.ngrok.io/actualizarPago.php?idHistorial=" + idHistorial + "&pago=" + pago;
+                String url = "http://e9eec324.ngrok.io/actualizarPago.php?idHistorial=" + idHistorial + "&pago=" + pago;
 
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {

@@ -73,7 +73,7 @@ public class Edit extends AppCompatActivity implements EditFront.OnFragmentInter
                         try {
 
                             RequestQueue queue = Volley.newRequestQueue(Edit.this);
-                            String url = "http://ab70d881.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
+                            String url = "http://e9eec324.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
 
 
                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -133,7 +133,7 @@ public class Edit extends AppCompatActivity implements EditFront.OnFragmentInter
                                                             if(!actionIsMade[0]) {
                                                                 newVerificado[0] = 3;
                                                                 RequestQueue queue1 = Volley.newRequestQueue(Edit.this);
-                                                                String url1 = "http://ab70d881.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                                String url1 = "http://e9eec324.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                                         new Response.Listener<String>() {
@@ -154,7 +154,7 @@ public class Edit extends AppCompatActivity implements EditFront.OnFragmentInter
                                                             }
                                                             // Instantiate the RequestQueue.
                                                             RequestQueue queue = Volley.newRequestQueue(Edit.this);
-                                                            String url = "http://ab70d881.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+                                                            String url = "http://e9eec324.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
 
                                                             // Request a string response from the provided URL.
                                                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -227,14 +227,14 @@ public class Edit extends AppCompatActivity implements EditFront.OnFragmentInter
                                                 if (finalizar[0] == 1) {
                                                     handler.removeCallbacks(runnable);
                                                 } else {
-                                                    handler.postDelayed(runnable, 5000);
+                                                    handler.postDelayed(runnable, 10000);
                                                 }
                                                 break;
 
                                             case DialogInterface.BUTTON_NEGATIVE:
                                                 newVerificado[0] = 2;
                                                 RequestQueue queue1 = Volley.newRequestQueue(Edit.this);
-                                                String url1 = "http://ab70d881.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                String url1 = "http://e9eec324.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                         new Response.Listener<String>() {
@@ -276,12 +276,12 @@ public class Edit extends AppCompatActivity implements EditFront.OnFragmentInter
                 if (isPaused[0]) {
                     handler.removeCallbacks(runnable);
                 } else {
-                    handler.postDelayed(runnable, 5000);
+                    handler.postDelayed(runnable, 10000);
                 }
                 if (finalizar[0] == 1) {
                     handler.removeCallbacks(runnable);
                 } else {
-                    handler.postDelayed(runnable, 5000);
+                    handler.postDelayed(runnable, 10000);
                 }
             }
         }).start();

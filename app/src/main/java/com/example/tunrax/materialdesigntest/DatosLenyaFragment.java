@@ -198,7 +198,7 @@ public class DatosLenyaFragment extends Fragment {
 
         try {
 
-            url = ("http://ab70d881.ngrok.io/seleccionarIdCliente.php?idUsuario=" + id);
+            url = ("http://e9eec324.ngrok.io/seleccionarIdCliente.php?idUsuario=" + id);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -231,7 +231,7 @@ public class DatosLenyaFragment extends Fragment {
 
         try {
 
-            url = ("http://ab70d881.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra + "&cantidad="+cantidad);
+            url = ("http://e9eec324.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra + "&cantidad="+cantidad);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();

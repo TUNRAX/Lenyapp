@@ -107,7 +107,7 @@ public class ProveedorData extends AppCompatActivity
             e.printStackTrace();
         }
         String jsonString2 = userJson2.toString();
-        String url2 = "http://ab70d881.ngrok.io/agregarVisita.php";
+        String url2 = "http://e9eec324.ngrok.io/agregarVisita.php";
         try {
             Back ejec2 = new Back(new Back.AsyncResponse() {
                 @Override
@@ -150,7 +150,7 @@ public class ProveedorData extends AppCompatActivity
                     e.printStackTrace();
                 }
                 String jsonString2 = userJson2.toString();
-                String url2 = "http://ab70d881.ngrok.io/agregarFavoritos.php";
+                String url2 = "http://e9eec324.ngrok.io/agregarFavoritos.php";
                 try {
                     Back ejec2 = new Back(new Back.AsyncResponse() {
                         @Override
@@ -194,7 +194,7 @@ public class ProveedorData extends AppCompatActivity
             public void run() {
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                String url = "http://ab70d881.ngrok.io/obtenerProductos.php?id=" + idProveedor;
+                String url = "http://e9eec324.ngrok.io/obtenerProductos.php?id=" + idProveedor;
 
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {
@@ -273,7 +273,7 @@ public class ProveedorData extends AppCompatActivity
 
                                                                     RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
 
-                                                                    String url = "http://ab70d881.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra[0] + "&cantidad=" + cantidad;
+                                                                    String url = "http://e9eec324.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra[0] + "&cantidad=" + cantidad;
 
                                                                     StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                                                                             new Response.Listener<String>() {
@@ -310,7 +310,7 @@ public class ProveedorData extends AppCompatActivity
                                                                             try {
                                                                                 // Instantiate the RequestQueue.
                                                                                 RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                                                                                String url = "http://ab70d881.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+                                                                                String url = "http://e9eec324.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
 
                                                                                 // Request a string response from the provided URL.
                                                                                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -383,7 +383,7 @@ public class ProveedorData extends AppCompatActivity
                                                                     if (finalizar[0] == 1) {
                                                                         handler.removeCallbacks(runnable);
                                                                     } else {
-                                                                        handler.postDelayed(runnable, 6000);
+                                                                        handler.postDelayed(runnable, 10000);
                                                                     }
 
 
@@ -519,7 +519,7 @@ public class ProveedorData extends AppCompatActivity
         tblImagenes = (TableLayout) findViewById(R.id.tblImagenes);
         final TableRow row1 = new TableRow(ProveedorData.this);
         RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-        String url = "http://ab70d881.ngrok.io/obtenerImagenes.php?idProveedor=" + idProveedor;
+        String url = "http://e9eec324.ngrok.io/obtenerImagenes.php?idProveedor=" + idProveedor;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -535,7 +535,7 @@ public class ProveedorData extends AppCompatActivity
                             for (int i = 0; i < listaProductos.size(); i++) {
                                 TableRow row1 = new TableRow(ProveedorData.this);
                                 final String nombre = listaProductos.get(i).getNombre();
-                                String imageHttpAddress1 = "http://ab70d881.ngrok.io/img/" + nombre + ".jpg";
+                                String imageHttpAddress1 = "http://e9eec324.ngrok.io/img/" + nombre + ".jpg";
                                 ImageView imgFoto = new ImageView(ProveedorData.this);
                                 new LoadImage(imgFoto).execute(imageHttpAddress1);
 
@@ -594,7 +594,7 @@ public class ProveedorData extends AppCompatActivity
                         try {
 
                             RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                            String url = "http://ab70d881.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
+                            String url = "http://e9eec324.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
 
 
                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -654,7 +654,7 @@ public class ProveedorData extends AppCompatActivity
                                                             if(!actionIsMade[0]) {
                                                                 newVerificado[0] = 3;
                                                                 RequestQueue queue1 = Volley.newRequestQueue(ProveedorData.this);
-                                                                String url1 = "http://ab70d881.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                                String url1 = "http://e9eec324.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                                         new Response.Listener<String>() {
@@ -675,7 +675,7 @@ public class ProveedorData extends AppCompatActivity
                                                             }
                                                             // Instantiate the RequestQueue.
                                                             RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                                                            String url = "http://ab70d881.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+                                                            String url = "http://e9eec324.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
 
                                                             // Request a string response from the provided URL.
                                                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -734,7 +734,7 @@ public class ProveedorData extends AppCompatActivity
                                                                 checkearPedidos(idUsu);
 
                                                             } else {
-                                                                handle.postDelayed(this, 10000);
+                                                                handle.postDelayed(this, 6000);
                                                             }
 
                                                         } catch (Exception e) {
@@ -748,14 +748,14 @@ public class ProveedorData extends AppCompatActivity
                                                 if (finalizar[0] == 1) {
                                                     handler.removeCallbacks(runnable);
                                                 } else {
-                                                    handler.postDelayed(runnable, 5000);
+                                                    handler.postDelayed(runnable, 10000);
                                                 }
                                                 break;
 
                                             case DialogInterface.BUTTON_NEGATIVE:
                                                 newVerificado[0] = 2;
                                                 RequestQueue queue1 = Volley.newRequestQueue(ProveedorData.this);
-                                                String url1 = "http://ab70d881.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                String url1 = "http://e9eec324.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                         new Response.Listener<String>() {
@@ -797,12 +797,12 @@ public class ProveedorData extends AppCompatActivity
                 if (isPaused[0]) {
                     handler.removeCallbacks(runnable);
                 } else {
-                    handler.postDelayed(runnable, 5000);
+                    handler.postDelayed(runnable, 10000);
                 }
                 if (finalizar[0] == 1) {
                     handler.removeCallbacks(runnable);
                 } else {
-                    handler.postDelayed(runnable, 5000);
+                    handler.postDelayed(runnable, 10000);
                 }
             }
         }).start();
@@ -833,7 +833,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://ab70d881.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial);
+            url = ("http://e9eec324.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -865,7 +865,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://ab70d881.ngrok.io/seleccionarIdCliente.php?idUsuario=" + id);
+            url = ("http://e9eec324.ngrok.io/seleccionarIdCliente.php?idUsuario=" + id);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -898,7 +898,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://ab70d881.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra + "&cantidad=" + cantidad);
+            url = ("http://e9eec324.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra + "&cantidad=" + cantidad);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();

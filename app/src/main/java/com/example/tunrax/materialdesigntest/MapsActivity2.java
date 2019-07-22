@@ -295,7 +295,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         }
     // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://ab70d881.ngrok.io/trackingUsuario.php?idHistorial="+ idHistorial +"&lat="+ latitudOut +"&long="+ longitudOut;
+        String url ="http://e9eec324.ngrok.io/trackingUsuario.php?idHistorial="+ idHistorial +"&lat="+ latitudOut +"&long="+ longitudOut;
 
     // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -317,7 +317,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         ////////////////////////////////////////////////////////
         // Instantiate the RequestQueue.
         RequestQueue queue1 = Volley.newRequestQueue(this);
-        String url1 = "http://ab70d881.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial;
+        String url1 = "http://e9eec324.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
