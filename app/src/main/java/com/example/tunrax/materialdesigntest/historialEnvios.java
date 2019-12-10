@@ -12,7 +12,7 @@ public class historialEnvios implements Parcelable {
     int validado;
     int idCliente;
     int idDetalleProducto;
-    String tipoDeCompra;
+    int tipoDeCompraId;
     int cantidad;
     int pagado;
 
@@ -24,12 +24,12 @@ public class historialEnvios implements Parcelable {
         this.cantidad = cantidad;
     }
 
-    public String getTipoDeCompra() {
-        return tipoDeCompra;
+    public int getTipoDeCompraId() {
+        return tipoDeCompraId;
     }
 
-    public void setTipoDeCompra(String tipoDeCompra) {
-        this.tipoDeCompra = tipoDeCompra;
+    public void setTipoDeCompraId(int tipoDeCompraId) {
+        this.tipoDeCompraId = tipoDeCompraId;
     }
 
     public int getPagado() {
@@ -49,7 +49,7 @@ public class historialEnvios implements Parcelable {
         this.validado = validado;
         this.idCliente = idCliente;
         this.idDetalleProducto = idDetalleProducto;
-        this.tipoDeCompra = tipoDeCompra;
+        this.tipoDeCompraId = tipoDeCompraId;
         this.cantidad = cantidad;
         this.pagado = pagado;
     }
@@ -104,7 +104,7 @@ public class historialEnvios implements Parcelable {
         validado = in.readInt();
         idCliente = in.readInt();
         idDetalleProducto = in.readInt();
-        tipoDeCompra = in.readString();
+        tipoDeCompraId = in.readInt();
         cantidad = in.readInt();
         pagado = in.readInt();
     }
@@ -131,7 +131,7 @@ public class historialEnvios implements Parcelable {
         validado =objetoJSON.getInt("estado");
         idCliente = objetoJSON.getInt("id_cliente");
         idDetalleProducto = objetoJSON.getInt("id_detalle_producto");
-        tipoDeCompra = objetoJSON.getString("tipoDeCompra");
+        tipoDeCompraId = objetoJSON.getInt("tipo_compra_id");
         cantidad = objetoJSON.getInt("cantidad");
         pagado = objetoJSON.getInt("pagado");
 
@@ -144,7 +144,7 @@ public class historialEnvios implements Parcelable {
         dest.writeInt(validado);
         dest.writeInt(idCliente);
         dest.writeInt(idDetalleProducto);
-        dest.writeString(tipoDeCompra);
+        dest.writeInt(tipoDeCompraId);
         dest.writeInt(cantidad);
         dest.writeInt(pagado);
     }

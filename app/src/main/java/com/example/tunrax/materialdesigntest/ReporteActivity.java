@@ -77,18 +77,9 @@ public class ReporteActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             Log.e("app", "exception", e);
                         }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-
-                            }
-                        });
 
                     }
 
-                    {
-
-                    }
                 };
                 thread.start();
                 Log.i("SendMailActivity", "Send Button Clicked.");
@@ -114,7 +105,7 @@ public class ReporteActivity extends AppCompatActivity {
 
         final int[] finalizar = {0};
         final int[] idHistorial = {0};
-        final String[] tipoDePago = {""};
+        final int[] tipoDePago = {0};
         final int[] verificado = {0};
         final int[] precio = {0};
         final int[] cantidad = {0};
@@ -134,7 +125,7 @@ public class ReporteActivity extends AppCompatActivity {
                         try {
 
                             RequestQueue queue = Volley.newRequestQueue(ReporteActivity.this);
-                            String url = "http://e9eec324.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
+                            String url = "https://865e33a1.sa.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
 
 
                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -167,7 +158,7 @@ public class ReporteActivity extends AppCompatActivity {
                             for (int i = 0; i < listaHistorialEnvios.size(); i++) {
                                 verificado[0] = listaHistorialEnvios.get(i).getValidado();
                                 idHistorial[0] = listaHistorialEnvios.get(i).getId();
-                                tipoDePago[0] = listaHistorialEnvios.get(i).getTipoDeCompra();
+                                tipoDePago[0] = listaHistorialEnvios.get(i).getTipoDeCompraId();
                                 cantidad[0] = listaHistorialEnvios.get(i).getCantidad();
                             }
 
@@ -194,7 +185,7 @@ public class ReporteActivity extends AppCompatActivity {
                                                             if(!actionIsMade[0]) {
                                                                 newVerificado[0] = 3;
                                                                 RequestQueue queue1 = Volley.newRequestQueue(ReporteActivity.this);
-                                                                String url1 = "http://e9eec324.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                                String url1 = "https://865e33a1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                                         new Response.Listener<String>() {
@@ -215,7 +206,7 @@ public class ReporteActivity extends AppCompatActivity {
                                                             }
                                                             // Instantiate the RequestQueue.
                                                             RequestQueue queue = Volley.newRequestQueue(ReporteActivity.this);
-                                                            String url = "http://e9eec324.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+                                                            String url = "https://865e33a1.sa.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
 
                                                             // Request a string response from the provided URL.
                                                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -295,7 +286,7 @@ public class ReporteActivity extends AppCompatActivity {
                                             case DialogInterface.BUTTON_NEGATIVE:
                                                 newVerificado[0] = 2;
                                                 RequestQueue queue1 = Volley.newRequestQueue(ReporteActivity.this);
-                                                String url1 = "http://e9eec324.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                String url1 = "https://865e33a1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                         new Response.Listener<String>() {
@@ -364,7 +355,7 @@ public class ReporteActivity extends AppCompatActivity {
 
         try {
 
-            url = ("http://e9eec324.ngrok.io/respaldarReporte.php?idUsuario=" + id
+            url = ("https://865e33a1.sa.ngrok.io/respaldarReporte.php?idUsuario=" + id
                     + "&titulo=" + titulo
                     + "&descripcion=" + descripcion);
             url = url.replaceAll(" ", "%20");

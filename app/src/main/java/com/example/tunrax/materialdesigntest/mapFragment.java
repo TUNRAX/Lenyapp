@@ -136,7 +136,7 @@ public class mapFragment extends Fragment {
                 mMap = googleMap;
 
                 try {
-                    String direccion="osorno, chile";
+                    String direccion="Osorno, Chile";
                     Geocoder gc=new Geocoder(getContext(), Locale.getDefault());
                     List<Address> addresses;
                     addresses=gc.getFromLocationName(direccion,5);
@@ -165,7 +165,7 @@ public class mapFragment extends Fragment {
 
                 try {
                     for (int i = 0; i < lista.size(); i++) {
-                        direccion = lista.get(i).getDireccion() + "," + lista.get(i).getCiudad() + ",Chile";
+                        direccion = lista.get(i).getDireccion() + "," + "Osorno" + ",Chile";
                         dir = lista.get(i).getDireccion();
                         addresses = gc.getFromLocationName(direccion, 5);
                         vendedor = lista.get(i).getNombre();
@@ -201,7 +201,7 @@ public class mapFragment extends Fragment {
                         }
 
                         String jsonString1 = userJson1.toString();
-                        String url1 = "http://e9eec324.ngrok.io/BuscarProveedor.php";
+                        String url1 = "https://865e33a1.sa.ngrok.io/BuscarProveedor.php";
                         try {
                             Back ejec = new Back(new Back.AsyncResponse() {
                                 @Override
@@ -215,7 +215,6 @@ public class mapFragment extends Fragment {
                                         String direccion = "";
                                         String fono1 = "";
                                         String fono2 = "";
-                                        String ciudad = "";
                                         int calificacion = 0;
                                         JSONObject jsonObjectProveedor = new JSONObject(jsonResult);
                                         JSONArray jsonArrayProveedor = jsonObjectProveedor.getJSONArray("proveedor");
@@ -230,7 +229,6 @@ public class mapFragment extends Fragment {
                                             nomEmpresa = listaProveedor.get(i).getNombre_empresa();
                                             rut = listaProveedor.get(i).getRut();
                                             direccion = listaProveedor.get(i).getDireccion();
-                                            ciudad = listaProveedor.get(i).getCiudad();
                                             calificacion = listaProveedor.get(i).getCalificacion();
                                         }
                                         final int idProveedorPass = idProveedor;
@@ -241,7 +239,6 @@ public class mapFragment extends Fragment {
                                         final String direccionPass = direccion;
                                         final String fono1Pass = fono1;
                                         final String fono2Pass = fono2;
-                                        final String ciudadPass = ciudad;
                                         final int calificacionPass = calificacion;
 
 
@@ -254,7 +251,7 @@ public class mapFragment extends Fragment {
                                         }
                                         //TODO implementar cambios para la otra pantalla
                                         String jsonString2 = userJson2.toString();
-                                        String url2 = "http://e9eec324.ngrok.io/BuscarLenya.php";
+                                        String url2 = "https://865e33a1.sa.ngrok.io/BuscarLenya.php";
                                         try {
                                             Back ejec2 = new Back(new Back.AsyncResponse() {
                                                 @Override
@@ -262,7 +259,7 @@ public class mapFragment extends Fragment {
                                                     int idDetalle = 0;
                                                     int precioUnitario = 0;
                                                     int ventaMinima = 0;
-                                                    String producto = "";
+                                                    int tipoProductoId = 0;
                                                     String medida = "";
                                                     try {
                                                         JSONObject jsonObjectDatos = new JSONObject(jsonResult2);
@@ -275,8 +272,9 @@ public class mapFragment extends Fragment {
                                                             idDetalle = listaDatos.get(i).getId();
                                                             precioUnitario = listaDatos.get(i).getPrecioUnitario();
                                                             ventaMinima = listaDatos.get(i).getVentaMinima();
-                                                            producto = listaDatos.get(i).getProducto();
+
                                                             medida = listaDatos.get(i).getMedida();
+                                                            tipoProductoId = listaDatos.get(i).getTipoProductoId();
                                                         }
 
                                                         Intent i = new Intent(getActivity().getApplicationContext(), ProveedorData.class);
@@ -288,12 +286,11 @@ public class mapFragment extends Fragment {
                                                         i.putExtra("direccion", direccionPass);
                                                         i.putExtra("fono1", fono1Pass);
                                                         i.putExtra("fono2", fono2Pass);
-                                                        i.putExtra("ciudad", ciudadPass);
                                                         i.putExtra("calificacion", calificacionPass);
                                                         i.putExtra("idDetalle", idDetalle);
                                                         i.putExtra("precioUnitario", precioUnitario);
                                                         i.putExtra("ventaMinima", ventaMinima);
-                                                        i.putExtra("producto", producto);
+                                                        i.putExtra("tipoProductoId", tipoProductoId);
                                                         i.putExtra("medida", medida);
 
 

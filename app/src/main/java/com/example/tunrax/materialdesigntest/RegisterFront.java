@@ -46,7 +46,7 @@ public class RegisterFront extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private EditText txtNombre, txtApellido, txtDireccion, txtCiudad, txtRut, txtCorreo, txtContrasenyaReg, txtRepContrasenya, txtFono;
+    private EditText txtNombre, txtApellido, txtDireccion, txtRut, txtCorreo, txtContrasenyaReg, txtRepContrasenya, txtFono;
     private Button btnGuardar;
 
     private OnFragmentInteractionListener mListener;
@@ -88,7 +88,6 @@ public class RegisterFront extends Fragment {
         txtNombre = (EditText) getView().findViewById(R.id.txtNombre);
         txtApellido = (EditText) getView().findViewById(R.id.txtApellido);
         txtDireccion = (EditText) getView().findViewById(R.id.txtDireccion);
-        txtCiudad = (EditText) getView().findViewById(R.id.txtCiudad);
         txtRut = (EditText) getView().findViewById(R.id.txtRut);
         txtCorreo = (EditText) getView().findViewById(R.id.txtCorreo);
         txtContrasenyaReg = (EditText) getView().findViewById(R.id.txtContrasenyaReg);
@@ -104,12 +103,11 @@ public class RegisterFront extends Fragment {
                 String rutRecibido = txtRut.getText().toString();
                 String direccionRecibido = txtDireccion.getText().toString();
                 String fonoRecibido = txtFono.getText().toString();
-                String ciudadRecibido = txtCiudad.getText().toString();
                 String correoRecibido = txtCorreo.getText().toString();
                 String contra1Recibido = txtContrasenyaReg.getText().toString();
                 String contra2Recibido = txtRepContrasenya.getText().toString();
                 boolean rut = validarRut(rutRecibido);
-                if (nombreRecibido.equals("") || apellidoRecibido.equals("") || rutRecibido.equals("") || direccionRecibido.equals("") || fonoRecibido.equals("") || correoRecibido.equals("") || ciudadRecibido.equals("") || contra1Recibido.equals("") || contra2Recibido.equals("")) {
+                if (nombreRecibido.equals("") || apellidoRecibido.equals("") || rutRecibido.equals("") || direccionRecibido.equals("") || fonoRecibido.equals("") || correoRecibido.equals("") || contra1Recibido.equals("") || contra2Recibido.equals("")) {
                     Toast.makeText(getActivity().getApplicationContext(), "Rellene los campos nesesarios", Toast.LENGTH_SHORT).show();
                 } else if (rut) {
                     if (txtContrasenyaReg.getText().toString().equals(txtRepContrasenya.getText().toString())) {
@@ -121,7 +119,6 @@ public class RegisterFront extends Fragment {
                                         txtRut.getText().toString(),
                                         txtDireccion.getText().toString(),
                                         txtFono.getText().toString(),
-                                        txtCiudad.getText().toString(),
                                         txtCorreo.getText().toString(),
                                         txtContrasenyaReg.getText().toString());
                                 getActivity().runOnUiThread(new Runnable() {
@@ -147,7 +144,7 @@ public class RegisterFront extends Fragment {
         });
     }
 
-    public String RegistroCliente(String nombre, String apellido, String rut, String direccion, String fono, String ciudad, String correo, String contrasenya) {
+    public String RegistroCliente(String nombre, String apellido, String rut, String direccion, String fono, String correo, String contrasenya) {
 
         String url = null;
         String linea = "";
@@ -156,12 +153,11 @@ public class RegisterFront extends Fragment {
 
         try {
 
-            url =("http://e9eec324.ngrok.io/RegistroCliente.php?nombre="+nombre
+            url =("https://865e33a1.sa.ngrok.io/RegistroCliente.php?nombre="+nombre
                     +"&apellido="+apellido
                     +"&rut="+rut
                     +"&direccion="+direccion
                     +"&fono="+fono
-                    +"&ciudad="+ciudad
                     +"&correo="+correo
                     +"&contrasenya="+contrasenya);
             url = url.replaceAll(" ", "%20");

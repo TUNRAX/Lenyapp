@@ -79,7 +79,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     private long FASTEST_INTERVAL = 3000; /* 3 segundos */
     double latitude = 0;
     double longitude = 0;
-    String tipoDeCompra = "";
+    int tipoDeCompra = 0;
     int idHistorial = 0;
     int precioOficial = 0;
     boolean yaEjecutado = false;
@@ -100,7 +100,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         String correo = prefs.getString("correo", " ");//"No name defined" is the default value.
         final int id = prefs.getInt("id", 0); //0 is the default value.
         Bundle bundle = getIntent().getExtras();
-        tipoDeCompra = bundle.getString("tipoCompra");
+        tipoDeCompra = bundle.getInt("tipoCompra");
         idHistorial = bundle.getInt("idHistorial");
         precioOficial = bundle.getInt("precio");
         if (requestSinglePermission()) {
@@ -295,7 +295,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         }
     // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://e9eec324.ngrok.io/trackingUsuario.php?idHistorial="+ idHistorial +"&lat="+ latitudOut +"&long="+ longitudOut;
+        String url ="https://865e33a1.sa.ngrok.io/trackingUsuario.php?idHistorial="+ idHistorial +"&lat="+ latitudOut +"&long="+ longitudOut;
 
     // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -317,7 +317,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         ////////////////////////////////////////////////////////
         // Instantiate the RequestQueue.
         RequestQueue queue1 = Volley.newRequestQueue(this);
-        String url1 = "http://e9eec324.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial;
+        String url1 = "https://865e33a1.sa.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,

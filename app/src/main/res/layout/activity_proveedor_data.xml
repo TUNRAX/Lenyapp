@@ -121,18 +121,6 @@
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"  />
 
-            <TextView
-                android:id="@+id/lblCiudad"
-                android:layout_width="109dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="200dp"
-                android:layout_marginTop="90dp"
-                android:gravity="left"
-                android:fontFamily="@font/roboto"
-                android:text="Osorno"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/btnFav"
                 android:layout_width="58dp"

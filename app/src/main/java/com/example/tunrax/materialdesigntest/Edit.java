@@ -53,7 +53,7 @@ public class Edit extends AppCompatActivity implements EditFront.OnFragmentInter
 
         final int[] finalizar = {0};
         final int[] idHistorial = {0};
-        final String[] tipoDePago = {""};
+        final int[] tipoDePago = {0};
         final int[] verificado = {0};
         final int[] precio = {0};
         final int[] cantidad = {0};
@@ -73,7 +73,7 @@ public class Edit extends AppCompatActivity implements EditFront.OnFragmentInter
                         try {
 
                             RequestQueue queue = Volley.newRequestQueue(Edit.this);
-                            String url = "http://e9eec324.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
+                            String url = "https://865e33a1.sa.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
 
 
                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -106,7 +106,7 @@ public class Edit extends AppCompatActivity implements EditFront.OnFragmentInter
                             for (int i = 0; i < listaHistorialEnvios.size(); i++) {
                                 verificado[0] = listaHistorialEnvios.get(i).getValidado();
                                 idHistorial[0] = listaHistorialEnvios.get(i).getId();
-                                tipoDePago[0] = listaHistorialEnvios.get(i).getTipoDeCompra();
+                                tipoDePago[0] = listaHistorialEnvios.get(i).getTipoDeCompraId();
                                 cantidad[0] = listaHistorialEnvios.get(i).getCantidad();
                             }
 
@@ -133,7 +133,7 @@ public class Edit extends AppCompatActivity implements EditFront.OnFragmentInter
                                                             if(!actionIsMade[0]) {
                                                                 newVerificado[0] = 3;
                                                                 RequestQueue queue1 = Volley.newRequestQueue(Edit.this);
-                                                                String url1 = "http://e9eec324.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                                String url1 = "https://865e33a1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                                         new Response.Listener<String>() {
@@ -154,7 +154,7 @@ public class Edit extends AppCompatActivity implements EditFront.OnFragmentInter
                                                             }
                                                             // Instantiate the RequestQueue.
                                                             RequestQueue queue = Volley.newRequestQueue(Edit.this);
-                                                            String url = "http://e9eec324.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+                                                            String url = "https://865e33a1.sa.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
 
                                                             // Request a string response from the provided URL.
                                                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -234,7 +234,7 @@ public class Edit extends AppCompatActivity implements EditFront.OnFragmentInter
                                             case DialogInterface.BUTTON_NEGATIVE:
                                                 newVerificado[0] = 2;
                                                 RequestQueue queue1 = Volley.newRequestQueue(Edit.this);
-                                                String url1 = "http://e9eec324.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                String url1 = "https://865e33a1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                         new Response.Listener<String>() {

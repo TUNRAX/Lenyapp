@@ -53,17 +53,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-//TODO cambiar todo este sistema qlo
 public class ProveedorData extends AppCompatActivity
         implements CalificacionFragment.OnFragmentInteractionListener, Runnable {
-    private TextView lblEmpresa, lblNombre, lblDireccion, lblCiudad, lblRut;
+    private TextView lblEmpresa, lblNombre, lblDireccion, lblRut;
     private FloatingActionButton btnFav;
     private TableLayout tblImagenes;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
     int idDetalle = 0;
     int precioUnitario = 0;
     int ventaMinima = 0;
-    String producto = "";
+    int tipoProductoId = 0;
     String medida = "";
     private TableLayout tblProductos;
     private TextView lblTipoLenya, lblVentaMinima, lblPrecio;
@@ -85,7 +84,6 @@ public class ProveedorData extends AppCompatActivity
         String nomEmpresa = bundle.getString("nomEmpresa");
         String rut = bundle.getString("rut");
         String direccion = bundle.getString("direccion");
-        String ciudad = bundle.getString("ciudad");
 
         int calificacion = bundle.getInt("calificacion");
         final int idProveedor = bundle.getInt("idProveedor");
@@ -107,7 +105,7 @@ public class ProveedorData extends AppCompatActivity
             e.printStackTrace();
         }
         String jsonString2 = userJson2.toString();
-        String url2 = "http://e9eec324.ngrok.io/agregarVisita.php";
+        String url2 = "https://865e33a1.sa.ngrok.io/agregarVisita.php";
         try {
             Back ejec2 = new Back(new Back.AsyncResponse() {
                 @Override
@@ -127,14 +125,12 @@ public class ProveedorData extends AppCompatActivity
         lblEmpresa = (TextView) findViewById(R.id.lblEmpresa);
         lblNombre = (TextView) findViewById(R.id.lblNombre);
         lblDireccion = (TextView) findViewById(R.id.lblDireccion);
-        lblCiudad = (TextView) findViewById(R.id.lblCiudad);
         lblRut = (TextView) findViewById(R.id.lblRut);
         btnFav = (FloatingActionButton) findViewById(R.id.btnFav);
         lblEmpresa.setText(nomEmpresa);
         String concadenar = nombreProv + " " + apellidoProv;
         lblNombre.setText(concadenar);
         lblDireccion.setText(direccion);
-        lblCiudad.setText(ciudad);
         lblRut.setText(rut);
 
 
@@ -150,7 +146,7 @@ public class ProveedorData extends AppCompatActivity
                     e.printStackTrace();
                 }
                 String jsonString2 = userJson2.toString();
-                String url2 = "http://e9eec324.ngrok.io/agregarFavoritos.php";
+                String url2 = "https://865e33a1.sa.ngrok.io/agregarFavoritos.php";
                 try {
                     Back ejec2 = new Back(new Back.AsyncResponse() {
                         @Override
@@ -173,8 +169,9 @@ public class ProveedorData extends AppCompatActivity
         /////////////////////////////////////////////////////////////////
 
 
-        final String[] tipoDeCompra = {""};
+        final int[] tipoDeCompra = {0};
         final ArrayList<DatosLenya> listaDatos = new ArrayList<DatosLenya>();
+        final ArrayList<tipoProducto> listaTipoProductos = new ArrayList<tipoProducto>();
         tblProductos = (TableLayout) findViewById(R.id.tblProductos);
         // btnReporte = (ImageButton) findViewById(R.id.btnReporte);
 
@@ -194,7 +191,7 @@ public class ProveedorData extends AppCompatActivity
             public void run() {
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                String url = "http://e9eec324.ngrok.io/obtenerProductos.php?id=" + idProveedor;
+                String url = "https://865e33a1.sa.ngrok.io/obtenerProductos.php?id=" + idProveedor;
 
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {
@@ -205,8 +202,12 @@ public class ProveedorData extends AppCompatActivity
                                     String respuestaVolley = response;
                                     JSONObject jsonObjectDetalle = new JSONObject(respuestaVolley);
                                     JSONArray jsonArrayDetalle = jsonObjectDetalle.getJSONArray("productos");
+                                    JSONArray jsonArrayTipoProducto = jsonObjectDetalle.getJSONArray("tipoProducto");
                                     for (int x = 0; x < jsonArrayDetalle.length(); x++) {
                                         listaDatos.add(new DatosLenya(jsonArrayDetalle.getJSONObject(x)));
+                                    }
+                                    for (int a = 0; a < jsonArrayTipoProducto.length(); a++) {
+                                        listaTipoProductos.add(new tipoProducto(jsonArrayTipoProducto.getJSONObject(a)));
                                     }
                                     try {
 
@@ -215,6 +216,15 @@ public class ProveedorData extends AppCompatActivity
                                             final ArrayList<Calificacion> listaCalificacion = new ArrayList<Calificacion>();
                                             TextView lblprecioUnitario = new TextView(ProveedorData.this);
                                             TextView lblVentaMinima = new TextView(ProveedorData.this);
+                                            int idProductoActual = listaDatos.get(i).getTipoProductoId();
+                                            String nombreProductoCorrecto = "";
+                                            for (int b = 0; b < listaTipoProductos.size(); b++) {
+                                               int idProducto = listaTipoProductos.get(b).getId();
+                                               String nombreProducto = listaTipoProductos.get(b).getNombre();
+                                               if(idProductoActual==idProducto){
+                                                   nombreProductoCorrecto = nombreProducto;
+                                               }
+                                            }
                                             TextView lblProducto = new TextView(ProveedorData.this);
                                             TextView lblMedida = new TextView(ProveedorData.this);
                                             final EditText txtCantidad = new EditText(ProveedorData.this);
@@ -226,7 +236,7 @@ public class ProveedorData extends AppCompatActivity
                                             idDetalle = listaDatos.get(i).getId();
                                             precioUnitario = listaDatos.get(i).getPrecioUnitario();
                                             ventaMinima = listaDatos.get(i).getVentaMinima();
-                                            producto = listaDatos.get(i).getProducto();
+                                            tipoProductoId = listaDatos.get(i).getTipoProductoId();
                                             medida = listaDatos.get(i).getMedida();
                                             final ImageView btnCarrito = new ImageButton(ProveedorData.this.getApplicationContext());
                                             btnCarrito.setImageResource(R.drawable.shoppingcart);
@@ -273,7 +283,7 @@ public class ProveedorData extends AppCompatActivity
 
                                                                     RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
 
-                                                                    String url = "http://e9eec324.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra[0] + "&cantidad=" + cantidad;
+                                                                    String url = "https://865e33a1.sa.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra[0] + "&cantidad=" + cantidad;
 
                                                                     StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                                                                             new Response.Listener<String>() {
@@ -310,7 +320,7 @@ public class ProveedorData extends AppCompatActivity
                                                                             try {
                                                                                 // Instantiate the RequestQueue.
                                                                                 RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                                                                                String url = "http://e9eec324.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+                                                                                String url = "https://865e33a1.sa.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
 
                                                                                 // Request a string response from the provided URL.
                                                                                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -406,7 +416,7 @@ public class ProveedorData extends AppCompatActivity
                                                                             public void onClick(DialogInterface dialog, int which) {
                                                                                 switch (which) {
                                                                                     case DialogInterface.BUTTON_POSITIVE:
-                                                                                        tipoDeCompra[0] = "khipu";
+                                                                                        tipoDeCompra[0] = 1;
                                                                                         progressDoalog = new ProgressDialog(ProveedorData.this);
                                                                                         progressDoalog.setMessage("Espere mientras nos contactamos con el proveedor");
                                                                                         progressDoalog.setTitle("Se esta procesando el pedido");
@@ -415,7 +425,7 @@ public class ProveedorData extends AppCompatActivity
                                                                                         break;
 
                                                                                     case DialogInterface.BUTTON_NEGATIVE:
-                                                                                        tipoDeCompra[0] = "efectivo";
+                                                                                        tipoDeCompra[0] = 2;
                                                                                         progressDoalog = new ProgressDialog(ProveedorData.this);
                                                                                         progressDoalog.setMessage("Espere mientras nos contactamos con el proveedor");
                                                                                         progressDoalog.setTitle("Se esta procesando el pedido");
@@ -467,7 +477,7 @@ public class ProveedorData extends AppCompatActivity
                                             lblVentaMinima.setTextColor(Color.parseColor("#212121"));
                                             lblVentaMinima.setTypeface(custom_font);
 
-                                            lblProducto.setText(producto);
+                                            lblProducto.setText(nombreProductoCorrecto);
                                             lblProducto.setLayoutParams(params3);
                                             lblProducto.setTextSize(14);
                                             lblProducto.setTextColor(Color.parseColor("#212121"));
@@ -519,7 +529,7 @@ public class ProveedorData extends AppCompatActivity
         tblImagenes = (TableLayout) findViewById(R.id.tblImagenes);
         final TableRow row1 = new TableRow(ProveedorData.this);
         RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-        String url = "http://e9eec324.ngrok.io/obtenerImagenes.php?idProveedor=" + idProveedor;
+        String url = "https://865e33a1.sa.ngrok.io/obtenerImagenes.php?idProveedor=" + idProveedor;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -535,7 +545,7 @@ public class ProveedorData extends AppCompatActivity
                             for (int i = 0; i < listaProductos.size(); i++) {
                                 TableRow row1 = new TableRow(ProveedorData.this);
                                 final String nombre = listaProductos.get(i).getNombre();
-                                String imageHttpAddress1 = "http://e9eec324.ngrok.io/img/" + nombre + ".jpg";
+                                String imageHttpAddress1 = "https://865e33a1.sa.ngrok.io/img/" + nombre + ".jpg";
                                 ImageView imgFoto = new ImageView(ProveedorData.this);
                                 new LoadImage(imgFoto).execute(imageHttpAddress1);
 
@@ -574,7 +584,7 @@ public class ProveedorData extends AppCompatActivity
 
         final int[] finalizar = {0};
         final int[] idHistorial = {0};
-        final String[] tipoDePago = {""};
+        final int[] tipoDePago = {0};
         final int[] verificado = {0};
         final int[] precio = {0};
         final int[] cantidad = {0};
@@ -594,7 +604,7 @@ public class ProveedorData extends AppCompatActivity
                         try {
 
                             RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                            String url = "http://e9eec324.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
+                            String url = "https://865e33a1.sa.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
 
 
                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -627,7 +637,7 @@ public class ProveedorData extends AppCompatActivity
                             for (int i = 0; i < listaHistorialEnvios.size(); i++) {
                                 verificado[0] = listaHistorialEnvios.get(i).getValidado();
                                 idHistorial[0] = listaHistorialEnvios.get(i).getId();
-                                tipoDePago[0] = listaHistorialEnvios.get(i).getTipoDeCompra();
+                                tipoDePago[0] = listaHistorialEnvios.get(i).getTipoDeCompraId();
                                 cantidad[0] = listaHistorialEnvios.get(i).getCantidad();
                             }
 
@@ -654,7 +664,7 @@ public class ProveedorData extends AppCompatActivity
                                                             if(!actionIsMade[0]) {
                                                                 newVerificado[0] = 3;
                                                                 RequestQueue queue1 = Volley.newRequestQueue(ProveedorData.this);
-                                                                String url1 = "http://e9eec324.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                                String url1 = "https://865e33a1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                                         new Response.Listener<String>() {
@@ -675,7 +685,7 @@ public class ProveedorData extends AppCompatActivity
                                                             }
                                                             // Instantiate the RequestQueue.
                                                             RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                                                            String url = "http://e9eec324.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+                                                            String url = "https://865e33a1.sa.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
 
                                                             // Request a string response from the provided URL.
                                                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -755,7 +765,7 @@ public class ProveedorData extends AppCompatActivity
                                             case DialogInterface.BUTTON_NEGATIVE:
                                                 newVerificado[0] = 2;
                                                 RequestQueue queue1 = Volley.newRequestQueue(ProveedorData.this);
-                                                String url1 = "http://e9eec324.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                String url1 = "https://865e33a1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                         new Response.Listener<String>() {
@@ -833,7 +843,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://e9eec324.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial);
+            url = ("https://865e33a1.sa.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -865,7 +875,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://e9eec324.ngrok.io/seleccionarIdCliente.php?idUsuario=" + id);
+            url = ("https://865e33a1.sa.ngrok.io/seleccionarIdCliente.php?idUsuario=" + id);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -898,7 +908,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("http://e9eec324.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra + "&cantidad=" + cantidad);
+            url = ("https://865e33a1.sa.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra + "&cantidad=" + cantidad);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();

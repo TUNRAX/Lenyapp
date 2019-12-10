@@ -107,7 +107,7 @@ public class MapActivity extends AppCompatActivity
             e.printStackTrace();
         }
         String jsonString1 = userJson1.toString();
-        String url1 = "http://e9eec324.ngrok.io/BuscarCliente.php";
+        String url1 = "https://865e33a1.sa.ngrok.io/BuscarCliente.php";
         try {
             Back ejec = new Back(new Back.AsyncResponse() {
                 @Override
@@ -183,7 +183,6 @@ public class MapActivity extends AppCompatActivity
                         String apellido = "";
                         String direccion = "";
                         String fono = "";
-                        String ciudad = "";
                         String contrasenya = "";
                         String buscado = buscarUsuario(idUsu);
                         JSONObject jsonObjectCliente = new JSONObject(buscado);
@@ -197,7 +196,6 @@ public class MapActivity extends AppCompatActivity
                             apellido = listaCliente.get(i).getApellido();
                             direccion = listaCliente.get(i).getDireccion();
                             fono = listaCliente.get(i).getFono();
-                            ciudad = listaCliente.get(i).getCiudad();
                         }
 
                         JSONObject jsonObjectUsuario = new JSONObject(buscado);
@@ -215,7 +213,6 @@ public class MapActivity extends AppCompatActivity
                         i.putExtra("apellido", apellido);
                         i.putExtra("direccion", direccion);
                         i.putExtra("fono", fono);
-                        i.putExtra("ciudad", ciudad);
                         i.putExtra("contrasenya", contrasenya);
                         startActivity(i);
                     } catch (JSONException e) {
@@ -270,7 +267,7 @@ public class MapActivity extends AppCompatActivity
 
         final int[] finalizar = {0};
         final int[] idHistorial = {0};
-        final String[] tipoDePago = {""};
+        final int[] tipoDePago = {0};
         final int[] verificado = {0};
         final int[] precio = {0};
         final int[] cantidad = {0};
@@ -290,7 +287,7 @@ public class MapActivity extends AppCompatActivity
                         try {
 
                             RequestQueue queue = Volley.newRequestQueue(MapActivity.this);
-                            String url = "http://e9eec324.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
+                            String url = "https://865e33a1.sa.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
 
 
                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -323,7 +320,7 @@ public class MapActivity extends AppCompatActivity
                             for (int i = 0; i < listaHistorialEnvios.size(); i++) {
                                 verificado[0] = listaHistorialEnvios.get(i).getValidado();
                                 idHistorial[0] = listaHistorialEnvios.get(i).getId();
-                                tipoDePago[0] = listaHistorialEnvios.get(i).getTipoDeCompra();
+                                tipoDePago[0] = listaHistorialEnvios.get(i).getTipoDeCompraId();
                                 cantidad[0] = listaHistorialEnvios.get(i).getCantidad();
                             }
 
@@ -350,7 +347,7 @@ public class MapActivity extends AppCompatActivity
                                                             if(!actionIsMade[0]) {
                                                                 newVerificado[0] = 3;
                                                                 RequestQueue queue1 = Volley.newRequestQueue(MapActivity.this);
-                                                                String url1 = "http://e9eec324.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                                String url1 = "https://865e33a1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                                         new Response.Listener<String>() {
@@ -371,7 +368,7 @@ public class MapActivity extends AppCompatActivity
                                                             }
                                                             // Instantiate the RequestQueue.
                                                             RequestQueue queue = Volley.newRequestQueue(MapActivity.this);
-                                                            String url = "http://e9eec324.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+                                                            String url = "https://865e33a1.sa.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
 
                                                             // Request a string response from the provided URL.
                                                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -451,7 +448,7 @@ public class MapActivity extends AppCompatActivity
                                             case DialogInterface.BUTTON_NEGATIVE:
                                                 newVerificado[0] = 2;
                                                 RequestQueue queue1 = Volley.newRequestQueue(MapActivity.this);
-                                                String url1 = "http://e9eec324.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                String url1 = "https://865e33a1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                         new Response.Listener<String>() {
@@ -526,7 +523,7 @@ public class MapActivity extends AppCompatActivity
 
         try {
 
-            url = ("http://e9eec324.ngrok.io/buscarUsuario.php?idUsuario=" + idUsu);
+            url = ("https://865e33a1.sa.ngrok.io/buscarUsuario.php?idUsuario=" + idUsu);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();

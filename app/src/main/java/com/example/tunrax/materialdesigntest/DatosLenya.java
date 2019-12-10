@@ -16,14 +16,23 @@ public class DatosLenya implements Parcelable {
     String producto;
     String medida;
     int idProveedor;
+    int tipoProductoId;
+
+    public int getTipoProductoId() {
+        return tipoProductoId;
+    }
+
+    public void settipoProductoId(int tipoProductoId) {
+        this.tipoProductoId = tipoProductoId;
+    }
 
     public DatosLenya(JSONObject objetoJSON)throws JSONException {
         id = objetoJSON.getInt("id");
         precioUnitario = objetoJSON.getInt("precio_unitario");
         ventaMinima = objetoJSON.getInt("venta_minima");
-        producto = objetoJSON.getString("tipo_producto");
         medida = objetoJSON.getString("medida");
         idProveedor = objetoJSON.getInt("id_proveedor");
+        tipoProductoId = objetoJSON.getInt("tipo_producto_id");
     }
 
     protected DatosLenya(Parcel in) {
@@ -108,5 +117,6 @@ public class DatosLenya implements Parcelable {
         dest.writeString(producto);
         dest.writeString(medida);
         dest.writeInt(idProveedor);
+        dest.writeInt(tipoProductoId);
     }
 }

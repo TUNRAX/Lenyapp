@@ -19,7 +19,6 @@ public class Proveedor implements Parcelable {
     private String nombre_empresa;
     private String rut;
     private String direccion;
-    private String ciudad;
     private int calificacion;
     private int id_usuario;
     private ArrayList<Proveedor> lista_proveedores = new ArrayList<Proveedor>();
@@ -32,7 +31,6 @@ public class Proveedor implements Parcelable {
         nombre_empresa = objetoJSON.getString("nombre_empresa");
         rut = objetoJSON.getString("rut");
         direccion = objetoJSON.getString("direccion");
-        ciudad = objetoJSON.getString("ciudad");
         calificacion = objetoJSON.getInt("calificacion");
         id_usuario = objetoJSON.getInt("id_usuario");
     }
@@ -44,7 +42,6 @@ public class Proveedor implements Parcelable {
         nombre_empresa = in.readString();
         rut = in.readString();
         direccion = in.readString();
-        ciudad = in.readString();
         calificacion = in.readInt();
         id_usuario = in.readInt();
         lista_proveedores = in.createTypedArrayList(Proveedor.CREATOR);
@@ -110,13 +107,6 @@ public class Proveedor implements Parcelable {
         this.direccion = direccion;
     }
 
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
-    }
 
     public int getCalificacion() {
         return calificacion;
@@ -155,7 +145,6 @@ public class Proveedor implements Parcelable {
         dest.writeString(nombre_empresa);
         dest.writeString(rut);
         dest.writeString(direccion);
-        dest.writeString(ciudad);
         dest.writeInt(calificacion);
         dest.writeInt(id_usuario);
         dest.writeTypedList(lista_proveedores);

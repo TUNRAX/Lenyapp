@@ -16,7 +16,6 @@ public class Cliente implements Parcelable {
     String rut;
     String direccion;
     String fono;
-    String ciudad;
     int idUsuario;
 
     public Cliente(JSONObject objetoJSON)throws JSONException {
@@ -26,7 +25,6 @@ public class Cliente implements Parcelable {
         rut = objetoJSON.getString("rut");
         direccion = objetoJSON.getString("direccion");
         fono = objetoJSON.getString("fono");
-        ciudad = objetoJSON.getString("ciudad");
         idUsuario = objetoJSON.getInt("id_usuario");
     }
 
@@ -78,13 +76,6 @@ public class Cliente implements Parcelable {
         this.fono = fono;
     }
 
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
-    }
 
     public int getIdUsuario() {
         return idUsuario;
@@ -105,7 +96,6 @@ public class Cliente implements Parcelable {
         rut = in.readString();
         direccion = in.readString();
         fono = in.readString();
-        ciudad = in.readString();
         idUsuario = in.readInt();
     }
 
@@ -134,7 +124,6 @@ public class Cliente implements Parcelable {
         dest.writeString(rut);
         dest.writeString(direccion);
         dest.writeString(fono);
-        dest.writeString(ciudad);
         dest.writeInt(idUsuario);
     }
 }
