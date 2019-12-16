@@ -201,7 +201,7 @@ public class mapFragment extends Fragment {
                         }
 
                         String jsonString1 = userJson1.toString();
-                        String url1 = "https://865e33a1.sa.ngrok.io/BuscarProveedor.php";
+                        String url1 = "http://fd668ba1.sa.ngrok.io/BuscarProveedor.php";
                         try {
                             Back ejec = new Back(new Back.AsyncResponse() {
                                 @Override
@@ -251,7 +251,7 @@ public class mapFragment extends Fragment {
                                         }
                                         //TODO implementar cambios para la otra pantalla
                                         String jsonString2 = userJson2.toString();
-                                        String url2 = "https://865e33a1.sa.ngrok.io/BuscarLenya.php";
+                                        String url2 = "http://fd668ba1.sa.ngrok.io/BuscarLenya.php";
                                         try {
                                             Back ejec2 = new Back(new Back.AsyncResponse() {
                                                 @Override

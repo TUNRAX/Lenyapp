@@ -105,7 +105,7 @@ public class ProveedorData extends AppCompatActivity
             e.printStackTrace();
         }
         String jsonString2 = userJson2.toString();
-        String url2 = "https://865e33a1.sa.ngrok.io/agregarVisita.php";
+        String url2 = "http://fd668ba1.sa.ngrok.io/agregarVisita.php";
         try {
             Back ejec2 = new Back(new Back.AsyncResponse() {
                 @Override
@@ -146,7 +146,7 @@ public class ProveedorData extends AppCompatActivity
                     e.printStackTrace();
                 }
                 String jsonString2 = userJson2.toString();
-                String url2 = "https://865e33a1.sa.ngrok.io/agregarFavoritos.php";
+                String url2 = "http://fd668ba1.sa.ngrok.io/agregarFavoritos.php";
                 try {
                     Back ejec2 = new Back(new Back.AsyncResponse() {
                         @Override
@@ -191,7 +191,7 @@ public class ProveedorData extends AppCompatActivity
             public void run() {
                 // Instantiate the RequestQueue.
                 RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                String url = "https://865e33a1.sa.ngrok.io/obtenerProductos.php?id=" + idProveedor;
+                String url = "http://fd668ba1.sa.ngrok.io/obtenerProductos.php?id=" + idProveedor;
 
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {
@@ -283,7 +283,7 @@ public class ProveedorData extends AppCompatActivity
 
                                                                     RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
 
-                                                                    String url = "https://865e33a1.sa.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra[0] + "&cantidad=" + cantidad;
+                                                                    String url = "http://fd668ba1.sa.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&cantidad=" + cantidad;
 
                                                                     StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                                                                             new Response.Listener<String>() {
@@ -313,90 +313,6 @@ public class ProveedorData extends AppCompatActivity
                                                                     queue.add(stringRequest);
 
 
-                                                                    final int[] finalizar = {0};
-                                                                    final Runnable runnable = new Runnable() {
-                                                                        @Override
-                                                                        public void run() {
-                                                                            try {
-                                                                                // Instantiate the RequestQueue.
-                                                                                RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                                                                                String url = "https://865e33a1.sa.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
-
-                                                                                // Request a string response from the provided URL.
-                                                                                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                                                                                        new Response.Listener<String>() {
-                                                                                            @Override
-                                                                                            public void onResponse(String response) {
-                                                                                                // Display the first 500 characters of the response string.
-                                                                                                String verificar = response;
-                                                                                                try {
-                                                                                                    JSONObject jsonObjectHistorial = new JSONObject(verificar);
-                                                                                                    JSONObject idHistorialJson = jsonObjectHistorial.getJSONObject("validado");
-                                                                                                    listaHistorialEnvios.add(new historialEnvios(idHistorialJson));
-
-                                                                                                    for (int i = 0; i < listaHistorialEnvios.size(); i++) {
-                                                                                                        verificado[0] = listaHistorialEnvios.get(i).getValidado();
-
-                                                                                                    }
-
-
-                                                                                                } catch (Exception e) {
-                                                                                                    Log.e("app", "exception", e);
-                                                                                                }
-                                                                                            }
-
-
-                                                                                        }, new Response.ErrorListener() {
-                                                                                    @Override
-                                                                                    public void onErrorResponse(VolleyError error) {
-                                                                                        Toast.makeText(ProveedorData.this, "Error", Toast.LENGTH_SHORT).show();
-                                                                                    }
-                                                                                });
-
-
-                                                                                queue.add(stringRequest);
-
-                                                                                if (verificado[0] == 4) {
-                                                                                    Toast.makeText(ProveedorData.this, "Redireccionando", Toast.LENGTH_SHORT).show();
-                                                                                    SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
-                                                                                    editor.putString("idHistorial", String.valueOf(idHistorial[0]));
-                                                                                    editor.apply();
-
-
-                                                                                    Intent i = new Intent(ProveedorData.this, MapsActivity2.class);
-                                                                                    i.putExtra("idHistorial", idHistorial[0]);
-                                                                                    i.putExtra("tipoCompra", tipoDeCompra[0]);
-                                                                                    i.putExtra("precio", precioOficial);
-                                                                                    startActivity(i);
-                                                                                    progressDoalog.dismiss();
-                                                                                    finalizar[0] = 1;
-
-
-                                                                                } else if (verificado[0] == 2) {
-                                                                                    Toast.makeText(ProveedorData.this, "Leñador no disponible", Toast.LENGTH_LONG).show();
-                                                                                    progressDoalog.dismiss();
-                                                                                    finalizar[0] = 1;
-
-                                                                                } else {
-                                                                                    handle.postDelayed(this, 10000);
-                                                                                }
-
-                                                                            } catch (Exception e) {
-                                                                                Log.e("app", "exception", e);
-                                                                            }
-
-
-                                                                        }
-
-                                                                    };
-
-                                                                    if (finalizar[0] == 1) {
-                                                                        handler.removeCallbacks(runnable);
-                                                                    } else {
-                                                                        handler.postDelayed(runnable, 10000);
-                                                                    }
-
-
                                                                 } catch (Exception e) {
                                                                     e.printStackTrace();
                                                                 }
@@ -410,42 +326,8 @@ public class ProveedorData extends AppCompatActivity
                                                             public void onClick(DialogInterface dialog, int which) {
                                                                 switch (which) {
                                                                     case DialogInterface.BUTTON_POSITIVE:
-                                                                        //Yes button clicked
-                                                                        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                                switch (which) {
-                                                                                    case DialogInterface.BUTTON_POSITIVE:
-                                                                                        tipoDeCompra[0] = 1;
-                                                                                        progressDoalog = new ProgressDialog(ProveedorData.this);
-                                                                                        progressDoalog.setMessage("Espere mientras nos contactamos con el proveedor");
-                                                                                        progressDoalog.setTitle("Se esta procesando el pedido");
-                                                                                        progressDoalog.show();
-                                                                                        t1.start();
-                                                                                        break;
-
-                                                                                    case DialogInterface.BUTTON_NEGATIVE:
-                                                                                        tipoDeCompra[0] = 2;
-                                                                                        progressDoalog = new ProgressDialog(ProveedorData.this);
-                                                                                        progressDoalog.setMessage("Espere mientras nos contactamos con el proveedor");
-                                                                                        progressDoalog.setTitle("Se esta procesando el pedido");
-                                                                                        progressDoalog.show();
-                                                                                        t1.start();
-                                                                                        break;
-
-                                                                                    case DialogInterface.BUTTON_NEUTRAL:
-                                                                                        Toast.makeText(ProveedorData.this, "Compra Cancelada", Toast.LENGTH_SHORT).show();
-                                                                                        break;
-                                                                                }
-                                                                            }
-                                                                        };
-
-                                                                        AlertDialog.Builder builder = new AlertDialog.Builder(ProveedorData.this);
-                                                                        builder.setMessage("Metodo de compra").setPositiveButton("Debito/tarjeta", dialogClickListener)
-                                                                                .setNegativeButton("Efectivo", dialogClickListener)
-                                                                                .setNeutralButton("Cancelar", dialogClickListener).show();
-
-
+                                                                        t1.start();
+                                                                        Toast.makeText(ProveedorData.this, "Pedido realizado, puede verificar en historial de pedidos", Toast.LENGTH_LONG).show();
                                                                         break;
 
                                                                     case DialogInterface.BUTTON_NEGATIVE:
@@ -529,7 +411,7 @@ public class ProveedorData extends AppCompatActivity
         tblImagenes = (TableLayout) findViewById(R.id.tblImagenes);
         final TableRow row1 = new TableRow(ProveedorData.this);
         RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-        String url = "https://865e33a1.sa.ngrok.io/obtenerImagenes.php?idProveedor=" + idProveedor;
+        String url = "http://fd668ba1.sa.ngrok.io/obtenerImagenes.php?idProveedor=" + idProveedor;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -545,7 +427,7 @@ public class ProveedorData extends AppCompatActivity
                             for (int i = 0; i < listaProductos.size(); i++) {
                                 TableRow row1 = new TableRow(ProveedorData.this);
                                 final String nombre = listaProductos.get(i).getNombre();
-                                String imageHttpAddress1 = "https://865e33a1.sa.ngrok.io/img/" + nombre + ".jpg";
+                                String imageHttpAddress1 = "http://fd668ba1.sa.ngrok.io/img/" + nombre + ".jpg";
                                 ImageView imgFoto = new ImageView(ProveedorData.this);
                                 new LoadImage(imgFoto).execute(imageHttpAddress1);
 
@@ -604,7 +486,7 @@ public class ProveedorData extends AppCompatActivity
                         try {
 
                             RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                            String url = "https://865e33a1.sa.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
+                            String url = "http://fd668ba1.sa.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
 
 
                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -664,7 +546,7 @@ public class ProveedorData extends AppCompatActivity
                                                             if(!actionIsMade[0]) {
                                                                 newVerificado[0] = 3;
                                                                 RequestQueue queue1 = Volley.newRequestQueue(ProveedorData.this);
-                                                                String url1 = "https://865e33a1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                                String url1 = "http://fd668ba1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                                         new Response.Listener<String>() {
@@ -685,7 +567,7 @@ public class ProveedorData extends AppCompatActivity
                                                             }
                                                             // Instantiate the RequestQueue.
                                                             RequestQueue queue = Volley.newRequestQueue(ProveedorData.this);
-                                                            String url = "https://865e33a1.sa.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+                                                            String url = "http://fd668ba1.sa.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
 
                                                             // Request a string response from the provided URL.
                                                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -765,7 +647,7 @@ public class ProveedorData extends AppCompatActivity
                                             case DialogInterface.BUTTON_NEGATIVE:
                                                 newVerificado[0] = 2;
                                                 RequestQueue queue1 = Volley.newRequestQueue(ProveedorData.this);
-                                                String url1 = "https://865e33a1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                String url1 = "http://fd668ba1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                         new Response.Listener<String>() {
@@ -843,7 +725,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("https://865e33a1.sa.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial);
+            url = ("http://fd668ba1.sa.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -875,7 +757,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("https://865e33a1.sa.ngrok.io/seleccionarIdCliente.php?idUsuario=" + id);
+            url = ("http://fd668ba1.sa.ngrok.io/seleccionarIdCliente.php?idUsuario=" + id);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();
@@ -908,7 +790,7 @@ public class ProveedorData extends AppCompatActivity
 
         try {
 
-            url = ("https://865e33a1.sa.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra + "&cantidad=" + cantidad);
+            url = ("http://fd668ba1.sa.ngrok.io/crearPedido.php?idCliente=" + idCliente + "&idDetalle=" + idDetalle + "&tipoDeCompra=" + tipoDeCompra + "&cantidad=" + cantidad);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) sourceUrl.openConnection();

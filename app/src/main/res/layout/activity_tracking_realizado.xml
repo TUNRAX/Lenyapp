@@ -8,49 +8,56 @@
     tools:context=".trackingRealizado">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/lblCantidad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="180dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="42dp"
         android:fontFamily="@font/roboto_medium"
-        android:text="Su leña ha llegado"
-        android:textColor="#FFFFFF"
-        android:textSize="36sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/lblPago"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/roboto_medium"
-        android:text="Pague con efectivo"
+        android:text="1 metro"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/lblTipoDePago" />
 
-    <Button
-        android:id="@+id/btnConfirmar"
-        style="@style/AppTheme.RoundedCornerMaterialButton"
-        android:layout_width="125dp"
+    <TextView
+        android:id="@+id/lblTipoLeña"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Llego mi pedido"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="45dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Ulmo"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/lblPrecio"
+        app:layout_constraintTop_toBottomOf="@+id/lblPrecio" />
+
+    <TextView
+        android:id="@+id/lblPrecio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="43dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="10000"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@+id/lblCantidad"
+        app:layout_constraintTop_toBottomOf="@+id/lblCantidad" />
+
+    <TextView
+        android:id="@+id/lblTipoDePago"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="164dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="Esperando tipo de pago"
+        android:textColor="#FFFFFF"
+        android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblPago"
-        app:layout_constraintVertical_bias="0.072" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

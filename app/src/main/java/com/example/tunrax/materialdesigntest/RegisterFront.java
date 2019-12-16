@@ -153,7 +153,7 @@ public class RegisterFront extends Fragment {
 
         try {
 
-            url =("https://865e33a1.sa.ngrok.io/RegistroCliente.php?nombre="+nombre
+            url =("http://fd668ba1.sa.ngrok.io/RegistroCliente.php?nombre="+nombre
                     +"&apellido="+apellido
                     +"&rut="+rut
                     +"&direccion="+direccion

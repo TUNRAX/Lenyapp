@@ -12,9 +12,14 @@
             android:id="@+id/btnView"
             android:icon="@drawable/openbook"
             android:title="Leñadores visitados" />
-        <item android:title="Proveedores favoritos"
+        <item
+            android:title="Proveedores favoritos"
             android:id="@+id/btnFavoritos"
             android:icon="@drawable/starwhite"/>
+        <item
+            android:id="@+id/btnPedidos"
+            android:title="Lista de pedidos realizados"
+            android:icon="@drawable/list"/>
         <item
             android:id="@+id/btnReporte"
             android:icon="@drawable/textdocument"

@@ -1,6 +1,8 @@
 package com.example.tunrax.materialdesigntest;
 
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,11 +61,14 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
@@ -79,9 +84,12 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     private long FASTEST_INTERVAL = 3000; /* 3 segundos */
     double latitude = 0;
     double longitude = 0;
+    double latUsu = 0;
+    double longUsu = 0;
     int tipoDeCompra = 0;
     int idHistorial = 0;
     int precioOficial = 0;
+    String direccion = "";
     boolean yaEjecutado = false;
 
 
@@ -103,6 +111,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         tipoDeCompra = bundle.getInt("tipoCompra");
         idHistorial = bundle.getInt("idHistorial");
         precioOficial = bundle.getInt("precio");
+        direccion = bundle.getString("direccion");
         if (requestSinglePermission()) {
             // Obtain the SupportMapFragment and get notified when the map is ready to be used.
             //it was pre written
@@ -272,52 +281,36 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     @Override
     public void onLocationChanged(Location location ) {
         final ArrayList<Coordenadas> listaCoordenadas = new ArrayList<Coordenadas>();
-        final String latitudOut = String.valueOf(location.getLatitude());
-        final String longitudOut = String.valueOf(location.getLongitude());
-        double latitdUsu = Double.parseDouble(latitudOut);
-        double longitudUsu = Double.parseDouble(longitudOut);
-        latLngUsuario = new LatLng(latitdUsu, longitudUsu);
+
+        try {
+            Geocoder gc=new Geocoder(this, Locale.getDefault());
+            List<Address> addresses;
+            addresses=gc.getFromLocationName(direccion,5);
+            this.latUsu=addresses.get(0).getLatitude();
+            this.longUsu=addresses.get(0).getLongitude();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        latLngUsuario = new LatLng(latUsu, longUsu);
         Location leñadorGEO = new Location(LocationManager.GPS_PROVIDER);
         leñadorGEO.setLatitude(latitude);
         leñadorGEO.setLongitude(longitude);
+
         Location usuarioGEO = new Location(LocationManager.GPS_PROVIDER);
-        usuarioGEO.setLatitude(latitdUsu);
-        usuarioGEO.setLongitude(longitudUsu);
+        usuarioGEO.setLatitude(latUsu);
+        usuarioGEO.setLongitude(longUsu);
 
         if(leñadorGEO.distanceTo(usuarioGEO) < 100) {
 
-        Intent i = new Intent(getApplicationContext(), trackingRealizado.class);
-            i.putExtra("idHistorial", idHistorial);
-            i.putExtra("tipoCompra", tipoDeCompra);
-            i.putExtra("precio",precioOficial);
+        Intent i = new Intent(getApplicationContext(), tablaPedidos.class);
         startActivity(i);
 
         }
-    // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://865e33a1.sa.ngrok.io/trackingUsuario.php?idHistorial="+ idHistorial +"&lat="+ latitudOut +"&long="+ longitudOut;
-
-    // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MapsActivity2.this, "Error volley", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    // Add the request to the RequestQueue.
-        queue.add(stringRequest);
 
         ////////////////////////////////////////////////////////
         // Instantiate the RequestQueue.
         RequestQueue queue1 = Volley.newRequestQueue(this);
-        String url1 = "https://865e33a1.sa.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial;
+        String url1 = "http://fd668ba1.sa.ngrok.io/selectTrackingUsuario.php?idHistorial="+ idHistorial;
 
         // Request a string response from the provided URL.
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
@@ -334,12 +327,6 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                                 listaCoordenadas.add(new Coordenadas(jsonArrayCoordenadas.getJSONObject(x)));
                             }
 
-
-                        } catch (Exception e) {
-                            Log.e("app", "exception", e);
-                        }
-                        try {
-
                             for (int i = 0; i < listaCoordenadas.size(); i++) {
 
                                 String latitud = listaCoordenadas.get(i).getLatitud();
@@ -354,6 +341,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                         } catch (Exception e) {
                             Log.e("app", "exception", e);
                         }
+
                     }
                 }, new Response.ErrorListener() {
             @Override

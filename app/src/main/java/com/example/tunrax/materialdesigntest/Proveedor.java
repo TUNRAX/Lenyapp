@@ -23,6 +23,8 @@ public class Proveedor implements Parcelable {
     private int id_usuario;
     private ArrayList<Proveedor> lista_proveedores = new ArrayList<Proveedor>();
 
+    String nullCheck = "null";
+
 
     public Proveedor(JSONObject objetoJSON)throws JSONException {
         id = objetoJSON.getInt("id");

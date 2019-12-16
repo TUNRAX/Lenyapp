@@ -15,6 +15,15 @@ public class historialEnvios implements Parcelable {
     int tipoDeCompraId;
     int cantidad;
     int pagado;
+    String fechaEnvio;
+
+    public String getFechaEnvio() {
+        return fechaEnvio;
+    }
+
+    public void setFechaEnvio(String fechaEnvio) {
+        this.fechaEnvio = fechaEnvio;
+    }
 
     public int getCantidad() {
         return cantidad;
@@ -52,6 +61,7 @@ public class historialEnvios implements Parcelable {
         this.tipoDeCompraId = tipoDeCompraId;
         this.cantidad = cantidad;
         this.pagado = pagado;
+        this.fechaEnvio = fechaEnvio;
     }
 
     public int getId() {
@@ -107,6 +117,7 @@ public class historialEnvios implements Parcelable {
         tipoDeCompraId = in.readInt();
         cantidad = in.readInt();
         pagado = in.readInt();
+        fechaEnvio = in.readString();
     }
 
     public static final Creator<historialEnvios> CREATOR = new Creator<historialEnvios>() {
@@ -134,7 +145,8 @@ public class historialEnvios implements Parcelable {
         tipoDeCompraId = objetoJSON.getInt("tipo_compra_id");
         cantidad = objetoJSON.getInt("cantidad");
         pagado = objetoJSON.getInt("pagado");
-
+        fecha =objetoJSON.getString("fecha");
+        fechaEnvio = objetoJSON.getString("fecha_envio");
     }
 
     @Override
@@ -147,5 +159,6 @@ public class historialEnvios implements Parcelable {
         dest.writeInt(tipoDeCompraId);
         dest.writeInt(cantidad);
         dest.writeInt(pagado);
+        dest.writeString(fechaEnvio);
     }
 }

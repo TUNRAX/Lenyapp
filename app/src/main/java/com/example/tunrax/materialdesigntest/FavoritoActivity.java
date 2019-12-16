@@ -73,23 +73,23 @@ public class FavoritoActivity extends AppCompatActivity {
         params3.setMargins(5,0,5,0);
 
         Thread thread1 = new Thread() {
-            @Override
-            public void run() {
-                final String resultadoProveedores = Proveedores(id);
-                try {
-                    JSONObject jsonObjectProveedor = new JSONObject(resultadoProveedores);
-                    JSONArray jsonArrayProveedor = jsonObjectProveedor.getJSONArray("proveedores");
-                    for (int x = 0; x < jsonArrayProveedor.length(); x++) {
-                        listaProveedor.add(new Proveedor(jsonArrayProveedor.getJSONObject(x)));
-                    }
+                        @Override
+                        public void run() {
+                            final String resultadoProveedores = Proveedores(id);
+                            try {
+                                JSONObject jsonObjectProveedor = new JSONObject(resultadoProveedores);
+                                JSONArray jsonArrayProveedor = jsonObjectProveedor.getJSONArray("proveedores");
+                                for (int x = 0; x < jsonArrayProveedor.length(); x++) {
+                                    listaProveedor.add(new Proveedor(jsonArrayProveedor.getJSONObject(x)));
+                                }
 
-                } catch (Exception e) {
-                    Log.e("app", "exception", e);
-                }
+                            } catch (Exception e) {
+                                Log.e("app", "exception", e);
+                            }
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
                         try {
 
                             for (int i = 0; i < listaProveedor.size(); i++) {
@@ -244,7 +244,7 @@ public class FavoritoActivity extends AppCompatActivity {
                         try {
 
                             RequestQueue queue = Volley.newRequestQueue(FavoritoActivity.this);
-                            String url = "https://865e33a1.sa.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
+                            String url = "http://fd668ba1.sa.ngrok.io/seleccionarPedidoCliente.php?idUsuario=" + idUsu;
 
 
                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -304,7 +304,7 @@ public class FavoritoActivity extends AppCompatActivity {
                                                             if(!actionIsMade[0]) {
                                                                 newVerificado[0] = 3;
                                                                 RequestQueue queue1 = Volley.newRequestQueue(FavoritoActivity.this);
-                                                                String url1 = "https://865e33a1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                                String url1 = "http://fd668ba1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                                         new Response.Listener<String>() {
@@ -325,7 +325,7 @@ public class FavoritoActivity extends AppCompatActivity {
                                                             }
                                                             // Instantiate the RequestQueue.
                                                             RequestQueue queue = Volley.newRequestQueue(FavoritoActivity.this);
-                                                            String url = "https://865e33a1.sa.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
+                                                            String url = "http://fd668ba1.sa.ngrok.io/comprobarValidado.php?idHistorial=" + idHistorial[0];
 
                                                             // Request a string response from the provided URL.
                                                             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -405,7 +405,7 @@ public class FavoritoActivity extends AppCompatActivity {
                                             case DialogInterface.BUTTON_NEGATIVE:
                                                 newVerificado[0] = 2;
                                                 RequestQueue queue1 = Volley.newRequestQueue(FavoritoActivity.this);
-                                                String url1 = "https://865e33a1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
+                                                String url1 = "http://fd668ba1.sa.ngrok.io/actualizarValidado.php?validado=" + newVerificado[0] + "&idHistorial=" + idHistorial[0];
 
                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET, url1,
                                                         new Response.Listener<String>() {
@@ -474,7 +474,7 @@ public class FavoritoActivity extends AppCompatActivity {
 
         try {
 
-            url = new URL("https://865e33a1.sa.ngrok.io/obtenerListaFavoritos.php?idUsuario=" + id);
+            url = new URL("http://fd668ba1.sa.ngrok.io/obtenerListaFavoritos.php?idUsuario=" + id);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             respuesta = connection.getResponseCode();
 
@@ -504,7 +504,7 @@ public class FavoritoActivity extends AppCompatActivity {
 
         try {
 
-            url = ("https://865e33a1.sa.ngrok.io/calificacion.php?idUsuario=" + idUsuario
+            url = ("http://fd668ba1.sa.ngrok.io/calificacion.php?idUsuario=" + idUsuario
                     + "&idProveedor=" + idProveedor);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
@@ -534,7 +534,7 @@ public class FavoritoActivity extends AppCompatActivity {
 
         try {
 
-            url = ("https://865e33a1.sa.ngrok.io/verificarCalificacion.php?idUsuario=" + idUsuario
+            url = ("http://fd668ba1.sa.ngrok.io/verificarCalificacion.php?idUsuario=" + idUsuario
                     + "&idProveedor=" + idProveedor);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
@@ -567,7 +567,7 @@ public class FavoritoActivity extends AppCompatActivity {
 
         try {
 
-            url = ("https://865e33a1.sa.ngrok.io/eliminarCalificacion.php?idUsuario=" + idUsuario
+            url = ("http://fd668ba1.sa.ngrok.io/eliminarCalificacion.php?idUsuario=" + idUsuario
                     + "&idProveedor=" + idProveedor);
             url = url.replaceAll(" ", "%20");
             URL sourceUrl = new URL(url);
